@@ -48,13 +48,13 @@ const teams2025 = [
                 code: 'VER',
                 photo: 'https://www.formula1.com/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png'
             },
-            { 
-                name: 'Liam Lawson', 
-                number: 30, 
-                nationality: '�� Nova Zelândia',
-                code: 'LAW',
-                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/L/LIAMLAW01_Liam_Lawson/liamlaw01.png'
-            }
+                { 
+                    name: 'Yuki Tsunoda', 
+                    number: 22, 
+                    nationality: '�� Japão',
+                    code: 'TSU',
+                    photo: 'https://www.formula1.com/content/dam/fom-website/drivers/Y/YUKTSU01_Yuki_Tsunoda/yuktsu01.png'
+                }
         ]
     },
     {
@@ -258,11 +258,11 @@ const teams2025 = [
         carModel: 'VCARB01',
         pilots: [
             { 
-                name: 'Yuki Tsunoda', 
-                number: 22, 
-                nationality: '🇯🇵 Japão',
-                code: 'TSU',
-                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/Y/YUKTSU01_Yuki_Tsunoda/yuktsu01.png'
+                name: 'Sergio Perez', 
+                number: 11, 
+                nationality: '�� México',
+                code: 'PER',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/S/SERPEREZ01_Sergio_Perez/serperez01.png'
             },
             { 
                 name: 'Liam Lawson', 
