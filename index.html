@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 360 - Temporada 2025</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Three.js para modelos 3D -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js" type="module"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+</head>
+<body>
+    <!-- 1️⃣ TELA INICIAL - EQUIPES -->
+    <div id="teamsScreen" class="screen active">
+        <div class="header">
+            <h1 class="app-title">F1 360</h1>
+            <p class="app-subtitle">Temporada 2025</p>
+            <div class="header-actions">
+                <button class="btn-header" onclick="showScreen('standingsScreen')">
+                    <i class="fas fa-trophy"></i> Classificação
+                </button>
+                <button class="btn-header" onclick="showScreen('calendarScreen')">
+                    <i class="fas fa-calendar"></i> Calendário
+                </button>
+                <button class="btn-header" onclick="showScreen('tracksScreen')">
+                    <i class="fas fa-flag-checkered"></i> Pistas
+                </button>
+            </div>
+        </div>
+
+        <div class="teams-scroll-container">
+            <div class="teams-horizontal-scroll" id="teamsScroll">
+                <!-- Cards das equipes serão inseridos aqui via JavaScript -->
+            </div>
+        </div>
+
+        <div class="scroll-hint">
+            <i class="fas fa-hand-pointer"></i>
+            <p>Role horizontal para ver todas as equipes</p>
+        </div>
+    </div>
+
+    <!-- 2️⃣ TELA DO CARRO 3D -->
+    <div id="carScreen" class="screen">
+        <div class="car-header">
+            <button class="back-btn" onclick="showScreen('teamsScreen')">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2 class="team-name-title" id="carTeamName">Red Bull Racing</h2>
+        </div>
+
+        <div class="car-container">
+            <div class="car-3d-viewer" id="car3DViewer">
+                <!-- Aqui ficará o modelo 3D do carro -->
+                <div class="car-placeholder">
+                    <i class="fas fa-car-side"></i>
+                    <p>Modelo 3D do Carro</p>
+                    <div class="rotation-hint">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Gira automaticamente 360°</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="car-actions">
+            <button class="btn-view-pilots" id="viewPilotsBtn" onclick="showPilotsScreen()">
+                <i class="fas fa-users"></i>
+                Ver Pilotos
+            </button>
+        </div>
+    </div>
+
+    <!-- 3️⃣ TELA DE PILOTOS -->
+    <div id="pilotsScreen" class="screen">
+        <div class="pilots-header">
+            <button class="back-btn" onclick="showScreen('carScreen')">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2 class="pilots-title" id="pilotsTeamName">Pilotos</h2>
+        </div>
+
+        <div class="pilots-container">
+            <div class="pilots-list" id="pilotsList">
+                <!-- Lista de pilotos será inserida aqui via JavaScript -->
+            </div>
+        </div>
+
+        <div class="pilots-actions">
+            <button class="btn-back" onclick="showScreen('teamsScreen')">
+                <i class="fas fa-home"></i>
+                Voltar ao Início
+            </button>
+        </div>
+    </div>
+
+    <!-- 4️⃣ TELA DE CLASSIFICAÇÕES -->
+    <div id="standingsScreen" class="screen">
+        <div class="standings-header">
+            <button class="back-btn" onclick="showScreen('teamsScreen')">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="standings-header-content">
+                <h2 class="standings-title">Classificação F1</h2>
+                <select id="yearSelector" class="year-selector" onchange="changeStandingsYear()">
+                    <option value="2025" selected>2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="standings-tabs">
+            <button class="tab-btn active" onclick="showStandingsTab('drivers')">
+                <i class="fas fa-user"></i> Pilotos
+            </button>
+            <button class="tab-btn" onclick="showStandingsTab('constructors')">
+                <i class="fas fa-building"></i> Construtores
+            </button>
+        </div>
+
+        <div class="standings-content">
+            <div id="driversStandings" class="standings-table active">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Carregando classificação...</p>
+                </div>
+            </div>
+            <div id="constructorsStandings" class="standings-table">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Carregando classificação...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5️⃣ TELA DE CALENDÁRIO -->
+    <div id="calendarScreen" class="screen">
+        <div class="calendar-header">
+            <button class="back-btn" onclick="showScreen('teamsScreen')">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2 class="calendar-title">Calendário 2025</h2>
+        </div>
+
+        <div class="calendar-filters">
+            <button class="filter-btn active" onclick="filterRaces('all')">Todas</button>
+            <button class="filter-btn" onclick="filterRaces('completed')">Concluídas</button>
+            <button class="filter-btn" onclick="filterRaces('upcoming')">Próximas</button>
+        </div>
+
+        <div class="calendar-container">
+            <div id="calendarGrid" class="calendar-grid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Carregando calendário...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Estatísticas do Piloto -->
+    <div id="pilotModal" class="pilot-modal" style="display: none;">
+        <div class="pilot-modal-content">
+            <span class="pilot-modal-close" onclick="closePilotModal()">&times;</span>
+            <div class="pilot-modal-body">
+                <div class="pilot-modal-header">
+                    <img id="pilotModalPhoto" src="" alt="" class="pilot-modal-photo">
+                    <div class="pilot-modal-info">
+                        <h2 id="pilotModalName"></h2>
+                        <div class="pilot-modal-details">
+                            <span id="pilotModalNumber"></span>
+                            <span id="pilotModalNationality"></span>
+                        </div>
+                        <div id="pilotModalTeam" class="pilot-modal-team"></div>
+                        <div id="pilotModalPosition" class="pilot-modal-position" style="margin-top: 10px; font-size: 14px; color: #ffd700; font-weight: bold;"></div>
+                    </div>
+                </div>
+                <div class="pilot-modal-stats">
+                    <div class="pilot-stat-card">
+                        <i class="fas fa-trophy"></i>
+                        <div class="pilot-stat-value" id="pilotChampionships">-</div>
+                        <div class="pilot-stat-label">CAMPEONATOS</div>
+                    </div>
+                    <div class="pilot-stat-card">
+                        <i class="fas fa-flag-checkered"></i>
+                        <div class="pilot-stat-value" id="pilotWins">-</div>
+                        <div class="pilot-stat-label">VITÓRIAS (2025)</div>
+                    </div>
+                    <div class="pilot-stat-card">
+                        <i class="fas fa-medal"></i>
+                        <div class="pilot-stat-value" id="pilotPodiums">-</div>
+                        <div class="pilot-stat-label">PÓDIOS (2025)</div>
+                    </div>
+                    <div class="pilot-stat-card">
+                        <i class="fas fa-bolt"></i>
+                        <div class="pilot-stat-value" id="pilotPoles">-</div>
+                        <div class="pilot-stat-label">POLE POSITIONS (2025)</div>
+                    </div>
+                    <div class="pilot-stat-card">
+                        <i class="fas fa-star"></i>
+                        <div class="pilot-stat-value" id="pilotPoints">-</div>
+                        <div class="pilot-stat-label">PONTOS (TEMPORADA 2025)</div>
+                    </div>
+                    <div class="pilot-stat-card">
+                        <i class="fas fa-calendar"></i>
+                        <div class="pilot-stat-value" id="pilotRaces">-</div>
+                        <div class="pilot-stat-label">CORRIDAS (2025)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6️⃣ TELA DE PISTAS -->
+    <div id="tracksScreen" class="screen">
+        <div class="tracks-header">
+            <button class="back-btn" onclick="showScreen('teamsScreen')">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2 class="tracks-title">Pistas da Fórmula 1</h2>
+        </div>
+
+        <div class="tracks-content">
+            <div class="tracks-grid" id="tracksGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Carregando pistas...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalhes da Pista -->
+    <div id="trackModal" class="track-modal" style="display: none;">
+        <div class="track-modal-content">
+            <span class="track-modal-close" onclick="closeTrackModal()">&times;</span>
+            <div class="track-modal-body">
+                <div class="track-modal-header">
+                    <h2 id="trackModalName"></h2>
+                    <div class="track-modal-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="trackModalLocation"></span>
+                    </div>
+                </div>
+                
+                <div class="track-map-container" style="margin: 1.5rem 0; text-align: center;">
+                    <img id="trackMapImage" src="" alt="Track Map" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                </div>
+                
+                <div class="track-stats-grid">
+                    <div class="track-stat">
+                        <i class="fas fa-ruler"></i>
+                        <div class="track-stat-value" id="trackLength">-</div>
+                        <div class="track-stat-label">Comprimento</div>
+                    </div>
+                    <div class="track-stat">
+                        <i class="fas fa-repeat"></i>
+                        <div class="track-stat-value" id="trackLaps">-</div>
+                        <div class="track-stat-label">Voltas</div>
+                    </div>
+                    <div class="track-stat">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <div class="track-stat-value" id="trackRecord">-</div>
+                        <div class="track-stat-label">Recorde</div>
+                    </div>
+                    <div class="track-stat">
+                        <i class="fas fa-trophy"></i>
+                        <div class="track-stat-value" id="trackWinner">-</div>
+                        <div class="track-stat-label">Último Vencedor</div>
+                    </div>
+                </div>
+
+                <div class="track-info-section">
+                    <h3><i class="fas fa-info-circle"></i> Curiosidades</h3>
+                    <div id="trackTrivia" class="track-trivia"></div>
+                </div>
+
+                <div class="track-info-section">
+                    <h3><i class="fas fa-crown"></i> Recordes</h3>
+                    <div id="trackRecords" class="track-records"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('🔥 HTML carregado!');
+        console.log('📍 Localização:', window.location.href);
+    </script>
+    <script src="script.js"></script>
+    <script>
+        console.log('✅ Script.js carregado!');
+    </script>
+</body>
+</html>

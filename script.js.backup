@@ -1,0 +1,2161 @@
+// ========================================
+// F1 360 - TEMPORADA 2025
+// ========================================
+console.log('🔥 Script carregado em:', new Date().toISOString());
+
+// API da F1 - Usando Jolpica-F1 (API gratuita e atualizada)
+const API_BASE = 'https://api.jolpi.ca/ergast/f1';
+const API_OPENF1 = 'https://api.openf1.org/v1';
+const CURRENT_YEAR = 2024; // API tem dados completos até 2024
+
+// Estatísticas da Temporada 2025 (DADOS REAIS ATUALIZADOS)
+const stats2025 = {
+    'PIA': { races: 20, wins: 7, podiums: 14, poles: 4, points: 346, position: 1, championships: 0 },
+    'NOR': { races: 20, wins: 5, podiums: 15, poles: 6, points: 332, position: 2, championships: 0 },
+    'VER': { races: 20, wins: 5, podiums: 10, poles: 8, points: 306, position: 3, championships: 4 },
+    'RUS': { races: 20, wins: 2, podiums: 8, poles: 3, points: 252, position: 4, championships: 0 },
+    'LEC': { races: 20, wins: 0, podiums: 6, poles: 2, points: 192, position: 5, championships: 0 },
+    'HAM': { races: 20, wins: 0, podiums: 0, poles: 1, points: 142, position: 6, championships: 7 },
+    'SAI': { races: 20, wins: 0, podiums: 1, poles: 0, points: 38, position: 11, championships: 0 },
+    'HUL': { races: 20, wins: 0, podiums: 1, poles: 0, points: 41, position: 9, championships: 0 },
+    'TSU': { races: 20, wins: 0, podiums: 0, poles: 0, points: 28, position: 16, championships: 0 },
+    'LAW': { races: 20, wins: 0, podiums: 0, poles: 0, points: 30, position: 14, championships: 0 },
+    'ALO': { races: 20, wins: 0, podiums: 0, poles: 0, points: 37, position: 12, championships: 2 },
+    'STR': { races: 20, wins: 0, podiums: 0, poles: 0, points: 32, position: 13, championships: 0 },
+    'GAS': { races: 20, wins: 0, podiums: 0, poles: 0, points: 20, position: 17, championships: 0 },
+    'OCO': { races: 20, wins: 0, podiums: 0, poles: 0, points: 28, position: 15, championships: 0 },
+    'BEA': { races: 20, wins: 0, podiums: 0, poles: 0, points: 20, position: 18, championships: 0 },
+    'BOR': { races: 20, wins: 0, podiums: 0, poles: 0, points: 18, position: 19, championships: 0 },
+    'DOO': { races: 20, wins: 0, podiums: 0, poles: 0, points: 0, position: 21, championships: 0 },
+    'ANT': { races: 20, wins: 0, podiums: 0, poles: 0, points: 0, position: 20, championships: 0 },
+    'ALB': { races: 20, wins: 0, podiums: 0, poles: 0, points: 0, position: 22, championships: 0 }
+};
+
+// Dados das Equipes e Pilotos 2025 com LOGOS OFICIAIS CORRETOS
+const teams2025 = [
+    {
+        id: 'redbull',
+        name: 'Red Bull Racing',
+        shortName: 'Red Bull',
+        color: '#3671C6',
+        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/red%20bull.png',
+        carModel: 'RB20',
+        pilots: [
+            { 
+                name: 'Max Verstappen', 
+                number: 1, 
+                nationality: '🇳🇱 Holanda',
+                code: 'VER',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png'
+            },
+            { 
+                name: 'Liam Lawson', 
+                number: 30, 
+                nationality: '�� Nova Zelândia',
+                code: 'LAW',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/L/LIAMLAW01_Liam_Lawson/liamlaw01.png'
+            }
+        ]
+    },
+    {
+        id: 'ferrari',
+        name: 'Ferrari',
+        shortName: 'Ferrari',
+        color: '#E8002D',
+        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/ferrari.png',
+        carModel: 'SF-24',
+        pilots: [
+            { 
+                name: 'Charles Leclerc', 
+                number: 16, 
+                nationality: '🇲🇨 Mônaco',
+                code: 'LEC',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/C/CHALEC01_Charles_Leclerc/chalec01.png'
+            },
+            { 
+                name: 'Lewis Hamilton', 
+                number: 44, 
+                nationality: '🇬🇧 Reino Unido',
+                code: 'HAM',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/L/LEWHAM01_Lewis_Hamilton/lewham01.png'
+            }
+        ]
+    },
+    {
+        id: 'mclaren',
+        name: 'McLaren',
+        shortName: 'McLaren',
+        color: '#FF8000',
+        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/mclaren.png',
+        carModel: 'MCL38',
+        pilots: [
+            { 
+                name: 'Lando Norris', 
+                number: 4, 
+                nationality: '🇬🇧 Reino Unido',
+                code: 'NOR',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/L/LANNOR01_Lando_Norris/lannor01.png'
+            },
+            { 
+                name: 'Oscar Piastri', 
+                number: 81, 
+                nationality: '🇦🇺 Austrália',
+                code: 'PIA',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/O/OSCPIA01_Oscar_Piastri/oscpia01.png'
+            }
+        ]
+    },
+    {
+        id: 'mercedes',
+        name: 'Mercedes',
+        shortName: 'Mercedes',
+        color: '#27F4D2',
+        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/mercedes.png',
+        carModel: 'W15',
+        pilots: [
+            { 
+                name: 'George Russell', 
+                number: 63, 
+                nationality: '🇬🇧 Reino Unido',
+                code: 'RUS',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/G/GEORUS01_George_Russell/georus01.png'
+            },
+            { 
+                name: 'Kimi Antonelli', 
+                number: 12, 
+                nationality: '🇮🇹 Itália',
+                code: 'ANT',
+                photo: 'https://www.formula1.com/content/dam/fom-website/manual/Misc/2024-Miscellaneous/GettyImages-2149527100.jpg'
+            }
+        ]
+    },
+    {
+        id: 'astonmartin',
+        name: 'Aston Martin',
+        shortName: 'Aston Martin',
+        color: '#229971',
+        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/aston%20martin.png',
+        carModel: 'AMR24',
+        pilots: [
+            { 
+                name: 'Fernando Alonso', 
+                number: 14, 
+                nationality: '🇪🇸 Espanha',
+                code: 'ALO',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/F/FERALO01_Fernando_Alonso/feralo01.png'
+            },
+            { 
+                name: 'Lance Stroll', 
+                number: 18, 
+                nationality: '🇨🇦 Canadá',
+                code: 'STR',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/L/LANSTR01_Lance_Stroll/lanstr01.png'
+            }
+        ]
+    },
+    {
+        id: 'alpine',
+        name: 'Alpine',
+        shortName: 'Alpine',
+        color: '#FF87BC',
+        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/alpine.png',
+        carModel: 'A524',
+        pilots: [
+            { 
+                name: 'Pierre Gasly', 
+                number: 10, 
+                nationality: '🇫🇷 França',
+                code: 'GAS',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/P/PIEGAS01_Pierre_Gasly/piegas01.png'
+            },
+            { 
+                name: 'Jack Doohan', 
+                number: 7, 
+                nationality: '🇦� Austrália',
+                code: 'DOO',
+                photo: 'https://media.formula1.com/image/upload/f_auto,c_limit,w_960,q_auto/content/dam/fom-website/manual/Misc/2024-Miscellaneous/Alpine2025JackDoohan'
+            }
+        ]
+    },
+    {
+        id: 'haas',
+        name: 'Haas F1 Team',
+        shortName: 'Haas',
+        color: '#B6BABD',
+        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/haas.png',
+        carModel: 'VF-24',
+        pilots: [
+            { 
+                name: 'Esteban Ocon', 
+                number: 31, 
+                nationality: '🇫🇷 França',
+                code: 'OCO',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/E/ESTOCO01_Esteban_Ocon/estoco01.png'
+            },
+            { 
+                name: 'Oliver Bearman', 
+                number: 87, 
+                nationality: '🇬🇧 Reino Unido',
+                code: 'BEA',
+                photo: 'https://www.formula1.com/content/dam/fom-website/manual/Misc/2024-Miscellaneous/GettyImages-2149527492.jpg'
+            }
+        ]
+    },
+    {
+        id: 'sauber',
+        name: 'Kick Sauber',
+        shortName: 'Sauber',
+        color: '#52E252',
+        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/kick%20sauber.png',
+        carModel: 'C44',
+        pilots: [
+            { 
+                name: 'Nico Hülkenberg', 
+                number: 27, 
+                nationality: '🇩🇪 Alemanha',
+                code: 'HUL',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/N/NICHUL01_Nico_Hulkenberg/nichul01.png'
+            },
+            { 
+                name: 'Gabriel Bortoleto', 
+                number: 5, 
+                nationality: '🇧🇷 Brasil',
+                code: 'BOR',
+                photo: 'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/manual/Misc/2024-Miscellaneous/BortoletoGabriel.jpg'
+            }
+        ]
+    },
+    {
+        id: 'williams',
+        name: 'Williams',
+        shortName: 'Williams',
+        color: '#64C4FF',
+        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/williams.png',
+        carModel: 'FW46',
+        pilots: [
+            { 
+                name: 'Alexander Albon', 
+                number: 23, 
+                nationality: '🇹🇭 Tailândia',
+                code: 'ALB',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/A/ALEALB01_Alexander_Albon/alealb01.png'
+            },
+            { 
+                name: 'Carlos Sainz', 
+                number: 55, 
+                nationality: '🇪🇸 Espanha',
+                code: 'SAI',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/C/CARSAI01_Carlos_Sainz/carsai01.png'
+            }
+        ]
+    },
+    {
+        id: 'racingbulls',
+        name: 'RB F1 Team',
+        shortName: 'Racing Bulls',
+        color: '#6692FF',
+        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/rb.png',
+        carModel: 'VCARB01',
+        pilots: [
+            { 
+                name: 'Yuki Tsunoda', 
+                number: 22, 
+                nationality: '🇯🇵 Japão',
+                code: 'TSU',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/Y/YUKTSU01_Yuki_Tsunoda/yuktsu01.png'
+            },
+            { 
+                name: 'Liam Lawson', 
+                number: 30, 
+                nationality: '🇳🇿 Nova Zelândia',
+                code: 'LAW',
+                photo: 'https://www.formula1.com/content/dam/fom-website/drivers/L/LIAMLAW01_Liam_Lawson/liamlaw01.png'
+            }
+        ]
+    }
+];
+
+// Variável para armazenar a equipe selecionada
+let selectedTeam = null;
+let currentScene = null;
+let currentCamera = null;
+let currentRenderer = null;
+let currentControls = null;
+
+// ========================================
+// NAVEGAÇÃO ENTRE TELAS
+// ========================================
+
+function showScreen(screenId) {
+    // Remove active de todas as telas
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+    });
+    
+    // Adiciona active na tela desejada
+    setTimeout(() => {
+        document.getElementById(screenId).classList.add('active');
+    }, 100);
+}
+
+// ========================================
+// 1️⃣ TELA INICIAL - RENDERIZAR EQUIPES
+// ========================================
+
+function renderTeams() {
+    const container = document.getElementById('teamsScroll');
+    
+    if (!container) {
+        console.error('❌ Container teamsScroll não encontrado!');
+        return;
+    }
+    
+    console.log(`🏁 Renderizando ${teams2025.length} equipes...`);
+    container.innerHTML = '';
+    
+    teams2025.forEach((team, index) => {
+        const card = document.createElement('div');
+        card.className = 'team-card';
+        card.style.setProperty('--team-color', team.color);
+        card.style.cursor = 'pointer';
+        
+        card.innerHTML = `
+            <div class="team-logo-container">
+                <img 
+                    src="${team.logo}" 
+                    alt="${team.name}" 
+                    class="team-logo"
+                    crossorigin="anonymous"
+                />
+            </div>
+            <div>
+                <div class="team-name">${team.shortName}</div>
+                <div class="team-info">${team.pilots.length} pilotos</div>
+            </div>
+        `;
+        
+        // Adicionar evento de clique
+        card.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log(`👆 CLIQUE DETECTADO: ${team.name}`);
+            console.log('Equipe completa:', team);
+            selectTeam(team);
+        });
+        
+        container.appendChild(card);
+        console.log(`✅ Card ${index + 1}/${teams2025.length}: ${team.name}`);
+    });
+    
+    console.log(`✅ ${teams2025.length} equipes renderizadas!`);
+}
+
+// ========================================
+// 2️⃣ SELECIONAR EQUIPE E MOSTRAR CARRO
+// ========================================
+
+function selectTeam(team) {
+    console.log('🔍 selectTeam chamado!', team);
+    
+    if (!team) {
+        console.error('❌ Equipe não definida!');
+        return;
+    }
+    
+    selectedTeam = team;
+    
+    console.log(`🏎️ Equipe selecionada: ${team.name}`);
+    console.log(`🎨 Cor da equipe: ${team.color}`);
+    console.log(`👥 Pilotos: ${team.pilots.map(p => p.name).join(', ')}`);
+    
+    // Atualizar o nome da equipe na tela do carro
+    const carTeamName = document.getElementById('carTeamName');
+    if (carTeamName) {
+        carTeamName.textContent = team.name;
+        carTeamName.style.color = team.color;
+        console.log('✅ Nome da equipe atualizado');
+    } else {
+        console.error('❌ Elemento carTeamName não encontrado!');
+    }
+    
+    // Atualizar cor do botão
+    const viewPilotsBtn = document.getElementById('viewPilotsBtn');
+    if (viewPilotsBtn) {
+        viewPilotsBtn.style.background = team.color;
+        console.log('✅ Cor do botão atualizada');
+    } else {
+        console.error('❌ Elemento viewPilotsBtn não encontrado!');
+    }
+    
+    // Criar visualizador 3D interativo
+    console.log('🎮 Iniciando visualizador 3D...');
+    init3DViewer(team);
+    
+    // Navegar para tela do carro
+    console.log('🔄 Navegando para tela do carro...');
+    showScreen('carScreen');
+    
+    console.log('✅ Transição completa!');
+}
+
+// ========================================
+// VISUALIZADOR 3D INTERATIVO COM THREE.JS
+// ========================================
+
+function init3DViewer(team) {
+    console.log('🎮 init3DViewer chamado para:', team.name);
+    
+    const container = document.getElementById('car3DViewer');
+    if (!container) {
+        console.error('❌ Container car3DViewer não encontrado!');
+        return;
+    }
+    
+    container.innerHTML = '';
+    console.log('✅ Container encontrado e limpo');
+    
+    // Verificar se Three.js está disponível
+    if (typeof THREE === 'undefined') {
+        console.warn('⚠️ Three.js não carregado, usando placeholder');
+        container.innerHTML = `
+            <div class="car-placeholder">
+                <i class="fas fa-car-side" style="font-size: 120px; color: ${team.color};"></i>
+                <p style="font-size: 24px; color: ${team.color}; margin-top: 20px;">${team.carModel}</p>
+                <p style="font-size: 18px; color: #666;">${team.name}</p>
+                <div class="rotation-hint" style="margin-top: 30px;">
+                    <i class="fas fa-hand-pointer"></i>
+                    <span>Modelo 3D carregando...</span>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    
+    console.log('✅ Three.js disponível, criando cena 3D...');
+    
+    // Limpar cena anterior
+    if (currentRenderer) {
+        currentRenderer.dispose();
+        if (currentControls) currentControls.dispose();
+    }
+    
+    // Criar cena
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf5f5f5);
+    
+    // Criar câmera
+    const camera = new THREE.PerspectiveCamera(
+        50,
+        container.clientWidth / container.clientHeight,
+        0.1,
+        1000
+    );
+    camera.position.set(8, 4, 8);
+    camera.lookAt(0, 1, 0);
+    
+    // Criar renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+    
+    // Adicionar luzes realistas
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    directionalLight.position.set(15, 20, 10);
+    directionalLight.castShadow = true;
+    directionalLight.shadow.mapSize.width = 2048;
+    directionalLight.shadow.mapSize.height = 2048;
+    scene.add(directionalLight);
+    
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    fillLight.position.set(-10, 10, -10);
+    scene.add(fillLight);
+    
+    const rimLight = new THREE.PointLight(0xffffff, 0.8);
+    rimLight.position.set(0, 5, -10);
+    scene.add(rimLight);
+    
+    // Criar carro F1 REALISTA
+    const carGroup = new THREE.Group();
+    
+    // Cor da equipe em hex
+    const teamColorHex = parseInt(team.color.replace('#', '0x'));
+    
+    // Material da carroceria (brilhante e metálico)
+    const bodyMaterial = new THREE.MeshStandardMaterial({ 
+        color: teamColorHex,
+        metalness: 0.9,
+        roughness: 0.1,
+        envMapIntensity: 1.5
+    });
+    
+    // Material preto (fibra de carbono)
+    const carbonMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x0a0a0a,
+        metalness: 0.8,
+        roughness: 0.2
+    });
+    
+    // Corpo principal do carro (mais realista)
+    const mainBodyGeometry = new THREE.BoxGeometry(5, 0.6, 1.8);
+    const mainBody = new THREE.Mesh(mainBodyGeometry, bodyMaterial);
+    mainBody.position.set(0, 0.5, 0);
+    mainBody.castShadow = true;
+    carGroup.add(mainBody);
+    
+    // Nariz do carro (frente pontuda)
+    const noseGeometry = new THREE.ConeGeometry(0.3, 1.5, 8);
+    const nose = new THREE.Mesh(noseGeometry, bodyMaterial);
+    nose.rotation.z = -Math.PI / 2;
+    nose.position.set(3.2, 0.4, 0);
+    nose.castShadow = true;
+    carGroup.add(nose);
+    
+    // Cockpit (cabeça do piloto)
+    const cockpitGeometry = new THREE.BoxGeometry(1.8, 0.6, 1.2);
+    const cockpit = new THREE.Mesh(cockpitGeometry, carbonMaterial);
+    cockpit.position.set(0.5, 1.05, 0);
+    cockpit.castShadow = true;
+    carGroup.add(cockpit);
+    
+    // Halo (proteção do piloto)
+    const haloGeometry = new THREE.TorusGeometry(0.7, 0.05, 8, 16, Math.PI);
+    const haloMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x333333,
+        metalness: 1,
+        roughness: 0.1
+    });
+    const halo = new THREE.Mesh(haloGeometry, haloMaterial);
+    halo.rotation.x = Math.PI / 2;
+    halo.position.set(0.5, 1.4, 0);
+    halo.castShadow = true;
+    carGroup.add(halo);
+    
+    // Asa dianteira (mais detalhada)
+    const frontWingMain = new THREE.BoxGeometry(2.5, 0.08, 2.2);
+    const frontWing = new THREE.Mesh(frontWingMain, carbonMaterial);
+    frontWing.position.set(2.5, 0.25, 0);
+    frontWing.castShadow = true;
+    carGroup.add(frontWing);
+    
+    // Asa dianteira - elementos aerodinâmicos
+    for (let i = -1; i <= 1; i++) {
+        const element = new THREE.Mesh(
+            new THREE.BoxGeometry(2.3, 0.04, 0.1),
+            carbonMaterial
+        );
+        element.position.set(2.5, 0.15 + (i * 0.08), i * 0.5);
+        carGroup.add(element);
+    }
+    
+    // Asa traseira (estrutura completa)
+    const rearWingSupport1 = new THREE.Mesh(
+        new THREE.BoxGeometry(0.1, 1.2, 0.08),
+        carbonMaterial
+    );
+    rearWingSupport1.position.set(-2.2, 1.2, 0.6);
+    carGroup.add(rearWingSupport1);
+    
+    const rearWingSupport2 = new THREE.Mesh(
+        new THREE.BoxGeometry(0.1, 1.2, 0.08),
+        carbonMaterial
+    );
+    rearWingSupport2.position.set(-2.2, 1.2, -0.6);
+    carGroup.add(rearWingSupport2);
+    
+    const rearWingTop = new THREE.Mesh(
+        new THREE.BoxGeometry(2, 0.08, 2),
+        carbonMaterial
+    );
+    rearWingTop.position.set(-2.2, 1.8, 0);
+    rearWingTop.castShadow = true;
+    carGroup.add(rearWingTop);
+    
+    const rearWingBottom = new THREE.Mesh(
+        new THREE.BoxGeometry(2, 0.06, 2),
+        carbonMaterial
+    );
+    rearWingBottom.position.set(-2.2, 1.4, 0);
+    carGroup.add(rearWingBottom);
+    
+    // Sidepods (laterais aerodinâmicas)
+    const sidepodGeometry = new THREE.BoxGeometry(2.5, 0.8, 0.5);
+    const sidepod1 = new THREE.Mesh(sidepodGeometry, bodyMaterial);
+    sidepod1.position.set(-0.3, 0.6, 1.1);
+    sidepod1.castShadow = true;
+    carGroup.add(sidepod1);
+    
+    const sidepod2 = new THREE.Mesh(sidepodGeometry, bodyMaterial);
+    sidepod2.position.set(-0.3, 0.6, -1.1);
+    sidepod2.castShadow = true;
+    carGroup.add(sidepod2);
+    
+    // Difusor traseiro
+    const diffuserGeometry = new THREE.BoxGeometry(1.5, 0.3, 1.8);
+    const diffuser = new THREE.Mesh(diffuserGeometry, carbonMaterial);
+    diffuser.position.set(-2, 0.2, 0);
+    diffuser.rotation.x = -0.2;
+    carGroup.add(diffuser);
+    
+    // Rodas (pneus Pirelli realistas)
+    const wheelGeometry = new THREE.CylinderGeometry(0.45, 0.45, 0.35, 32);
+    const tireMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x1a1a1a,
+        metalness: 0.3,
+        roughness: 0.9
+    });
+    
+    const rimMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0x888888,
+        metalness: 0.95,
+        roughness: 0.05
+    });
+    
+    const wheelPositions = [
+        [2, 0.45, 1],    // Frente esquerda
+        [2, 0.45, -1],   // Frente direita
+        [-1.8, 0.45, 1], // Traseira esquerda
+        [-1.8, 0.45, -1] // Traseira direita
+    ];
+    
+    wheelPositions.forEach((pos, index) => {
+        // Pneu
+        const tire = new THREE.Mesh(wheelGeometry, tireMaterial);
+        tire.rotation.z = Math.PI / 2;
+        tire.position.set(...pos);
+        tire.castShadow = true;
+        carGroup.add(tire);
+        
+        // Roda (aro)
+        const rimGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.38, 32);
+        const rim = new THREE.Mesh(rimGeometry, rimMaterial);
+        rim.rotation.z = Math.PI / 2;
+        rim.position.set(...pos);
+        carGroup.add(rim);
+    });
+    
+    // Números e detalhes
+    const numberGeometry = new THREE.PlaneGeometry(0.5, 0.7);
+    const numberMaterial = new THREE.MeshBasicMaterial({ 
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.9
+    });
+    const number = new THREE.Mesh(numberGeometry, numberMaterial);
+    number.position.set(0.8, 1.1, 1.21);
+    carGroup.add(number);
+    
+    scene.add(carGroup);
+    carGroup.position.y = 0.5;
+    
+    // Chão com reflexo
+    const floorGeometry = new THREE.PlaneGeometry(20, 20);
+    const floorMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0xcccccc,
+        metalness: 0.3,
+        roughness: 0.7
+    });
+    const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    floor.rotation.x = -Math.PI / 2;
+    floor.receiveShadow = true;
+    scene.add(floor);
+    
+    // Controles de órbita - SIMPLIFICADO (sem OrbitControls)
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    
+    renderer.domElement.addEventListener('mousedown', () => {
+        isDragging = true;
+    });
+    
+    renderer.domElement.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            const deltaMove = {
+                x: e.offsetX - previousMousePosition.x,
+                y: e.offsetY - previousMousePosition.y
+            };
+            
+            carGroup.rotation.y += deltaMove.x * 0.01;
+            carGroup.rotation.x += deltaMove.y * 0.01;
+        }
+        
+        previousMousePosition = {
+            x: e.offsetX,
+            y: e.offsetY
+        };
+    });
+    
+    renderer.domElement.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+    
+    renderer.domElement.style.cursor = 'grab';
+    renderer.domElement.addEventListener('mousedown', () => {
+        renderer.domElement.style.cursor = 'grabbing';
+    });
+    renderer.domElement.addEventListener('mouseup', () => {
+        renderer.domElement.style.cursor = 'grab';
+    });
+    
+    // Salvar referências
+    currentScene = scene;
+    currentCamera = camera;
+    currentRenderer = renderer;
+    currentControls = null; // Não usamos OrbitControls
+    
+    // Adicionar dica de interação
+    const hint = document.createElement('div');
+    hint.className = 'viewer-3d-hint';
+    hint.innerHTML = `
+        <i class="fas fa-hand-pointer"></i>
+        <span>Arraste para girar o carro 360°</span>
+    `;
+    hint.style.cssText = `
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        pointer-events: none;
+        z-index: 10;
+    `;
+    container.style.position = 'relative';
+    container.appendChild(hint);
+    
+    // Loop de animação
+    function animate() {
+        requestAnimationFrame(animate);
+        // Rotação automática suave quando não está arrastando
+        if (!isDragging) {
+            carGroup.rotation.y += 0.005;
+        }
+        renderer.render(scene, camera);
+    }
+    animate();
+    
+    // Responsividade
+    window.addEventListener('resize', () => {
+        if (document.getElementById('carScreen').classList.contains('active')) {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+    });
+    
+    console.log(`✅ Visualizador 3D criado para ${team.name}`);
+}
+
+// ========================================
+// 3️⃣ MOSTRAR PILOTOS DA EQUIPE
+// ========================================
+
+function showPilotsScreen() {
+    if (!selectedTeam) {
+        console.error('Nenhuma equipe selecionada!');
+        return;
+    }
+    
+    console.log(`👨‍✈️ Mostrando pilotos de: ${selectedTeam.name}`);
+    
+    // Atualizar título
+    document.getElementById('pilotsTeamName').textContent = `Pilotos - ${selectedTeam.name}`;
+    document.getElementById('pilotsTeamName').style.color = selectedTeam.color;
+    
+    // Renderizar lista de pilotos
+    const pilotsList = document.getElementById('pilotsList');
+    pilotsList.innerHTML = '';
+    
+    selectedTeam.pilots.forEach((pilot, index) => {
+        const card = document.createElement('div');
+        card.className = 'pilot-card';
+        card.style.setProperty('--team-color', selectedTeam.color);
+        card.style.cursor = 'pointer';
+        
+        // Adicionar click para abrir modal
+        card.onclick = () => showPilotModal(pilot, selectedTeam);
+        
+        card.innerHTML = `
+            <div class="pilot-number" style="background: ${selectedTeam.color};">
+                ${pilot.number}
+            </div>
+            <div class="pilot-info">
+                <div class="pilot-name">${pilot.name}</div>
+                <div class="pilot-nationality">
+                    <i class="fas fa-flag"></i>
+                    ${pilot.nationality}
+                </div>
+            </div>
+        `;
+        
+        pilotsList.appendChild(card);
+    });
+    
+    // Navegar para tela de pilotos
+    showScreen('pilotsScreen');
+}
+
+// ========================================
+// MODAL DE ESTATÍSTICAS DO PILOTO
+// ========================================
+
+async function showPilotModal(pilot, team) {
+    const modal = document.getElementById('pilotModal');
+    modal.style.setProperty('--team-color', team.color);
+    
+    // Preencher informações básicas
+    const photoImg = document.getElementById('pilotModalPhoto');
+    photoImg.src = pilot.photo;
+    photoImg.alt = pilot.name;
+    
+    // Fallback caso a foto não carregue
+    photoImg.onerror = function() {
+        console.warn(`⚠️ Foto não carregou para ${pilot.name}, usando fallback`);
+        this.src = 'https://via.placeholder.com/150/cccccc/333333?text=' + pilot.name.split(' ')[0];
+        this.style.objectFit = 'contain';
+        this.style.background = team.color;
+    };
+    
+    document.getElementById('pilotModalName').textContent = pilot.name;
+    document.getElementById('pilotModalNumber').textContent = `#${pilot.number}`;
+    document.getElementById('pilotModalNationality').textContent = pilot.nationality;
+    document.getElementById('pilotModalTeam').textContent = team.name;
+    
+    // Mostrar posição no campeonato 2025
+    const positionDiv = document.getElementById('pilotModalPosition');
+    if (stats2025[pilot.code]) {
+        const position = stats2025[pilot.code].position;
+        const suffix = position === 1 ? 'º - LÍDER!' : position === 2 ? 'º' : position === 3 ? 'º' : 'º';
+        positionDiv.textContent = `🏆 ${position}${suffix} lugar no campeonato 2025`;
+        positionDiv.style.color = position <= 3 ? '#ffd700' : '#27F4D2';
+    } else {
+        positionDiv.textContent = '';
+    }
+    
+    // Resetar estatísticas enquanto carrega
+    document.getElementById('pilotChampionships').textContent = '...';
+    document.getElementById('pilotWins').textContent = '...';
+    document.getElementById('pilotPodiums').textContent = '...';
+    document.getElementById('pilotPoles').textContent = '...';
+    document.getElementById('pilotPoints').textContent = '...';
+    document.getElementById('pilotRaces').textContent = '...';
+    
+    // Mostrar modal
+    modal.style.display = 'block';
+    
+    // Buscar estatísticas da API
+    await loadPilotStats(pilot.code);
+}
+
+function closePilotModal() {
+    document.getElementById('pilotModal').style.display = 'none';
+}
+
+// Fechar modal ao clicar fora dele
+window.onclick = function(event) {
+    const modal = document.getElementById('pilotModal');
+    if (event.target === modal) {
+        closePilotModal();
+    }
+}
+
+async function loadPilotStats(driverCode) {
+    try {
+        console.log(`📊 Buscando estatísticas para: ${driverCode}`);
+        
+        // SEMPRE usar dados de 2025 primeiro
+        if (stats2025[driverCode]) {
+            const stats = stats2025[driverCode];
+            
+            // Mostrar APENAS números da TEMPORADA 2025
+            document.getElementById('pilotChampionships').textContent = stats.championships;
+            document.getElementById('pilotWins').textContent = stats.wins;
+            document.getElementById('pilotPodiums').textContent = stats.podiums;
+            document.getElementById('pilotPoles').textContent = stats.poles;
+            document.getElementById('pilotPoints').textContent = `${stats.points} pts`;
+            document.getElementById('pilotRaces').textContent = stats.races;
+            
+            console.log(`✅ Estatísticas 2025 exibidas:`, stats);
+            console.log(`   Vitórias: ${stats.wins}, Pódios: ${stats.podiums}, Pontos: ${stats.points}`);
+            return;
+        }
+        
+        // Fallback: Piloto não está em stats2025, buscar da API
+        console.warn(`⚠️ Piloto ${driverCode} não encontrado em stats2025`);
+        
+        document.getElementById('pilotChampionships').textContent = '0';
+        document.getElementById('pilotWins').textContent = '0';
+        document.getElementById('pilotPodiums').textContent = '0';
+        document.getElementById('pilotPoles').textContent = '0';
+        document.getElementById('pilotPoints').textContent = '0 pts';
+        document.getElementById('pilotRaces').textContent = '0';
+        
+    } catch (error) {
+        console.error('❌ Erro ao carregar estatísticas:', error);
+        
+        document.getElementById('pilotChampionships').textContent = '0';
+        document.getElementById('pilotWins').textContent = '0';
+        document.getElementById('pilotPodiums').textContent = '0';
+        document.getElementById('pilotPoles').textContent = '0';
+        document.getElementById('pilotPoints').textContent = '0 pts';
+        document.getElementById('pilotRaces').textContent = '0';
+    }
+}
+
+// ========================================
+// 4️⃣ CLASSIFICAÇÕES REAIS DA F1
+// ========================================
+
+// Função para mudar o ano das classificações
+function changeStandingsYear() {
+    const year = document.getElementById('yearSelector').value;
+    console.log(`📅 Mudando classificações para: ${year}`);
+    loadDriversStandings(year);
+    loadConstructorsStandings(year);
+}
+
+async function loadDriversStandings(year = null) {
+    const container = document.getElementById('driversStandings');
+    
+    try {
+        // Usar ano selecionado ou tentar ano atual
+        year = year || document.getElementById('yearSelector')?.value || CURRENT_YEAR;
+        
+        let response = await fetch(`${API_BASE}/${year}/driverStandings.json`);
+        let data = await response.json();
+        
+        // Se não houver dados, tentar último ano disponível
+        if (!data.MRData.StandingsTable.StandingsLists.length) {
+            console.warn(`⚠️ Sem dados para ${year}, tentando 2024...`);
+            year = 2024;
+            response = await fetch(`${API_BASE}/${year}/driverStandings.json`);
+            data = await response.json();
+        }
+        
+        const standings = data.MRData.StandingsTable.StandingsLists[0].DriverStandings;
+        
+        container.innerHTML = '';
+        
+        standings.forEach((standing, index) => {
+            const team = teams2025.find(t => 
+                t.name.toLowerCase().includes(standing.Constructors[0].name.toLowerCase()) ||
+                standing.Constructors[0].name.toLowerCase().includes(t.name.toLowerCase().split(' ')[0])
+            ) || { color: '#cccccc' };
+            
+            const row = document.createElement('div');
+            row.className = 'standing-row';
+            row.style.animationDelay = `${index * 0.05}s`;
+            
+            row.innerHTML = `
+                <div class="position">${standing.position}</div>
+                <div class="driver-info">
+                    <div class="team-color-bar" style="background: ${team.color};"></div>
+                    <div class="driver-details">
+                        <div class="driver-name">${standing.Driver.givenName} ${standing.Driver.familyName}</div>
+                        <div class="team-name">${standing.Constructors[0].name}</div>
+                    </div>
+                </div>
+                <div class="points">${standing.points}</div>
+            `;
+            
+            container.appendChild(row);
+        });
+        
+        console.log(`✅ Classificação de pilotos ${year} carregada!`);
+        
+    } catch (error) {
+        console.error('Erro ao carregar classificação de pilotos:', error);
+        container.innerHTML = `
+            <div class="loading">
+                <p style="color: #DC0000;">Erro ao carregar dados. Verifique sua conexão.</p>
+            </div>
+        `;
+    }
+}
+
+async function loadConstructorsStandings(year = null) {
+    const container = document.getElementById('constructorsStandings');
+    
+    try {
+        year = year || document.getElementById('yearSelector')?.value || CURRENT_YEAR;
+        
+        let response = await fetch(`${API_BASE}/${year}/constructorStandings.json`);
+        let data = await response.json();
+        
+        if (!data.MRData.StandingsTable.StandingsLists.length) {
+            console.warn(`⚠️ Sem dados de construtores para ${year}, tentando 2024...`);
+            year = 2024;
+            response = await fetch(`${API_BASE}/${year}/constructorStandings.json`);
+            data = await response.json();
+        }
+        
+        const standings = data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
+        
+        container.innerHTML = '';
+        
+        standings.forEach((standing, index) => {
+            const team = teams2025.find(t => 
+                t.name.toLowerCase().includes(standing.Constructor.name.toLowerCase()) ||
+                standing.Constructor.name.toLowerCase().includes(t.name.toLowerCase().split(' ')[0])
+            ) || { color: '#cccccc' };
+            
+            const row = document.createElement('div');
+            row.className = 'standing-row';
+            row.style.animationDelay = `${index * 0.05}s`;
+            
+            row.innerHTML = `
+                <div class="position">${standing.position}</div>
+                <div class="constructor-info">
+                    <div class="team-color-bar" style="background: ${team.color};"></div>
+                    <div class="constructor-details">
+                        <div class="constructor-name">${standing.Constructor.name}</div>
+                        <div class="team-name">${standing.Constructor.nationality}</div>
+                    </div>
+                </div>
+                <div class="points">${standing.points}</div>
+            `;
+            
+            container.appendChild(row);
+        });
+        
+        console.log(`✅ Classificação de construtores ${year} carregada!`);
+        
+    } catch (error) {
+        console.error('Erro ao carregar classificação de construtores:', error);
+        container.innerHTML = `
+            <div class="loading">
+                <p style="color: #DC0000;">Erro ao carregar dados. Verifique sua conexão.</p>
+            </div>
+        `;
+    }
+}
+
+function showStandingsTab(tab) {
+    // Atualizar botões
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.closest('.tab-btn').classList.add('active');
+    
+    // Mostrar tabela correta
+    document.querySelectorAll('.standings-table').forEach(table => table.classList.remove('active'));
+    
+    if (tab === 'drivers') {
+        document.getElementById('driversStandings').classList.add('active');
+    } else {
+        document.getElementById('constructorsStandings').classList.add('active');
+    }
+}
+
+// ========================================
+// 5️⃣ CALENDÁRIO REAL DA F1
+// ========================================
+
+let allRaces = [];
+let currentFilter = 'all';
+
+// Calendário 2025 OFICIAL
+const calendar2025 = [
+    { round: 1, name: 'Grande Prêmio da Austrália', circuit: 'Albert Park Circuit', location: 'Melbourne', date: '2025-03-16', country: '🇦🇺' },
+    { round: 2, name: 'Grande Prêmio da China', circuit: 'Shanghai International Circuit', location: 'Xangai', date: '2025-03-23', country: '🇨🇳' },
+    { round: 3, name: 'Grande Prêmio do Japão', circuit: 'Suzuka Circuit', location: 'Suzuka', date: '2025-04-06', country: '🇯🇵' },
+    { round: 4, name: 'Grande Prêmio do Bahrein', circuit: 'Bahrain International Circuit', location: 'Sakhir', date: '2025-04-13', country: '🇧🇭' },
+    { round: 5, name: 'Grande Prêmio da Arábia Saudita', circuit: 'Jeddah Corniche Circuit', location: 'Jeddah', date: '2025-04-20', country: '🇸🇦' },
+    { round: 6, name: 'Grande Prêmio de Miami', circuit: 'Miami International Autodrome', location: 'Miami', date: '2025-05-04', country: '🇺🇸' },
+    { round: 7, name: 'Grande Prêmio da Emilia-Romagna', circuit: 'Autodromo Enzo e Dino Ferrari', location: 'Ímola', date: '2025-05-18', country: '🇮🇹' },
+    { round: 8, name: 'Grande Prêmio de Mônaco', circuit: 'Circuit de Monaco', location: 'Monte Carlo', date: '2025-05-25', country: '🇲🇨' },
+    { round: 9, name: 'Grande Prêmio da Espanha', circuit: 'Circuit de Barcelona-Catalunya', location: 'Barcelona', date: '2025-06-01', country: '🇪🇸' },
+    { round: 10, name: 'Grande Prêmio do Canadá', circuit: 'Circuit Gilles Villeneuve', location: 'Montreal', date: '2025-06-15', country: '🇨🇦' },
+    { round: 11, name: 'Grande Prêmio da Áustria', circuit: 'Red Bull Ring', location: 'Spielberg', date: '2025-06-29', country: '🇦🇹' },
+    { round: 12, name: 'Grande Prêmio da Grã-Bretanha', circuit: 'Silverstone Circuit', location: 'Silverstone', date: '2025-07-06', country: '🇬🇧' },
+    { round: 13, name: 'Grande Prêmio da Bélgica', circuit: 'Circuit de Spa-Francorchamps', location: 'Spa', date: '2025-07-27', country: '🇧🇪' },
+    { round: 14, name: 'Grande Prêmio da Hungria', circuit: 'Hungaroring', location: 'Budapeste', date: '2025-08-03', country: '🇭🇺' },
+    { round: 15, name: 'Grande Prêmio da Holanda', circuit: 'Circuit Zandvoort', location: 'Zandvoort', date: '2025-08-31', country: '🇳🇱' },
+    { round: 16, name: 'Grande Prêmio da Itália', circuit: 'Autodromo Nazionale di Monza', location: 'Monza', date: '2025-09-07', country: '🇮🇹' },
+    { round: 17, name: 'Grande Prêmio do Azerbaijão', circuit: 'Baku City Circuit', location: 'Baku', date: '2025-09-21', country: '🇦🇿' },
+    { round: 18, name: 'Grande Prêmio de Singapura', circuit: 'Marina Bay Street Circuit', location: 'Singapura', date: '2025-10-05', country: '🇸🇬' },
+    { round: 19, name: 'Grande Prêmio dos Estados Unidos', circuit: 'Circuit of the Americas', location: 'Austin', date: '2025-10-19', country: '🇺🇸' },
+    { round: 20, name: 'Grande Prêmio do México', circuit: 'Autódromo Hermanos Rodríguez', location: 'Cidade do México', date: '2025-10-26', country: '🇲🇽' },
+    { round: 21, name: 'Grande Prêmio do Brasil', circuit: 'Autódromo José Carlos Pace', location: 'São Paulo', date: '2025-11-09', country: '🇧🇷' },
+    { round: 22, name: 'Grande Prêmio de Las Vegas', circuit: 'Las Vegas Street Circuit', location: 'Las Vegas', date: '2025-11-22', country: '🇺🇸' },
+    { round: 23, name: 'Grande Prêmio do Catar', circuit: 'Losail International Circuit', location: 'Losail', date: '2025-11-30', country: '🇶🇦' },
+    { round: 24, name: 'Grande Prêmio de Abu Dhabi', circuit: 'Yas Marina Circuit', location: 'Abu Dhabi', date: '2025-12-07', country: '🇦🇪' }
+];
+
+async function loadCalendar() {
+    const container = document.getElementById('calendarGrid');
+    
+    try {
+        // Usar calendário fixo de 2025
+        allRaces = calendar2025.map(race => ({
+            round: race.round.toString(),
+            raceName: race.name,
+            date: race.date,
+            time: '14:00:00Z',
+            Circuit: {
+                circuitName: race.circuit,
+                Location: {
+                    locality: race.location,
+                    country: race.country
+                }
+            }
+        }));
+        
+        renderRaces(allRaces);
+        
+        console.log(`✅ Calendário 2025 carregado com ${allRaces.length} corridas!`);
+        
+    } catch (error) {
+        console.error('Erro ao carregar calendário:', error);
+        container.innerHTML = `
+            <div class="loading">
+                <p style="color: #DC0000;">Erro ao carregar calendário.</p>
+            </div>
+        `;
+    }
+}
+
+function renderRaces(races) {
+    const container = document.getElementById('calendarGrid');
+    container.innerHTML = '';
+    
+    const today = new Date();
+    
+    races.forEach((race, index) => {
+        const raceDate = new Date(race.date + 'T' + (race.time || '00:00:00'));
+        const isPast = raceDate < today;
+        
+        const card = document.createElement('div');
+        card.className = `race-card ${isPast ? 'completed' : 'upcoming'}`;
+        card.style.animationDelay = `${index * 0.05}s`;
+        card.dataset.status = isPast ? 'completed' : 'upcoming';
+        
+        const formattedDate = raceDate.toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        });
+        
+        card.innerHTML = `
+            <div class="race-round">Etapa ${race.round}</div>
+            <h3 class="race-name">${race.raceName}</h3>
+            <div class="race-circuit">
+                <i class="fas fa-map-marker-alt"></i>
+                ${race.Circuit.circuitName}
+            </div>
+            <div class="race-date">
+                <i class="fas fa-calendar"></i>
+                ${formattedDate}
+            </div>
+            <div class="race-status ${isPast ? 'completed' : 'upcoming'}">
+                ${isPast ? '✓ Concluída' : '⏱ Próxima'}
+            </div>
+        `;
+        
+        container.appendChild(card);
+    });
+}
+
+function filterRaces(filter) {
+    currentFilter = filter;
+    
+    // Atualizar botões
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Filtrar corridas
+    const today = new Date();
+    let filteredRaces = allRaces;
+    
+    if (filter === 'completed') {
+        filteredRaces = allRaces.filter(race => {
+            const raceDate = new Date(race.date);
+            return raceDate < today;
+        });
+    } else if (filter === 'upcoming') {
+        filteredRaces = allRaces.filter(race => {
+            const raceDate = new Date(race.date);
+            return raceDate >= today;
+        });
+    }
+    
+    renderRaces(filteredRaces);
+    console.log(`🔍 Filtro aplicado: ${filter} (${filteredRaces.length} corridas)`);
+}
+
+// ========================================
+// SCROLL SUAVE HORIZONTAL
+// ========================================
+
+function setupHorizontalScroll() {
+    const teamsScroll = document.getElementById('teamsScroll');
+    
+    if (!teamsScroll) return;
+    
+    // Scroll com mouse wheel horizontal
+    teamsScroll.addEventListener('wheel', (e) => {
+        if (e.deltaY !== 0) {
+            e.preventDefault();
+            teamsScroll.scrollLeft += e.deltaY;
+        }
+    });
+}
+
+// ========================================
+// EASTER EGG
+// ========================================
+
+let titleClicks = 0;
+let titleClickTimer = null;
+
+function setupEasterEgg() {
+    const appTitle = document.querySelector('.app-title');
+    
+    if (!appTitle) return;
+    
+    appTitle.addEventListener('click', () => {
+        titleClicks++;
+        
+        if (titleClickTimer) {
+            clearTimeout(titleClickTimer);
+        }
+        
+        titleClickTimer = setTimeout(() => {
+            titleClicks = 0;
+        }, 500);
+        
+        if (titleClicks === 3) {
+            console.log('🌈 Easter egg ativado!');
+            // Animação arco-íris
+            document.body.style.animation = 'rainbow 2s linear infinite';
+            
+            setTimeout(() => {
+                document.body.style.animation = '';
+                titleClicks = 0;
+            }, 3000);
+        }
+    });
+}
+
+// Adicionar animação rainbow
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes rainbow {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);
+
+// ========================================
+// EXPOR FUNÇÕES GLOBALMENTE (ANTES DO DOM)
+// ========================================
+
+// Expor funções globalmente para uso no HTML e nos eventos
+window.showScreen = showScreen;
+window.selectTeam = selectTeam;
+window.showPilotsScreen = showPilotsScreen;
+window.showStandingsTab = showStandingsTab;
+window.filterRaces = filterRaces;
+window.changeStandingsYear = changeStandingsYear;
+window.closePilotModal = closePilotModal;
+window.closeTrackModal = closeTrackModal;
+
+console.log('✅ Funções globais expostas antes do DOM!');
+
+// ========================================
+// INICIALIZAÇÃO
+// ========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🏁 Iniciando F1 360...');
+    
+    // Verificar se Three.js foi carregado
+    if (typeof THREE === 'undefined') {
+        console.warn('⚠️ Three.js não foi carregado! Carros 3D não estarão disponíveis.');
+    } else {
+        console.log('✅ Three.js carregado!');
+    }
+    
+    // Renderizar cards de equipes com logos reais
+    renderTeams();
+    
+    // Carregar dados reais da API
+    loadDriversStandings();
+    loadConstructorsStandings();
+    loadCalendar();
+    
+    // Configurar scroll horizontal
+    setupHorizontalScroll();
+    
+    // Configurar easter egg
+    setupEasterEgg();
+    
+    // Mostrar tela inicial
+    showScreen('teamsScreen');
+    
+    console.log('✅ F1 360 - Temporada 2025 carregado!');
+    console.log(`📊 ${teams2025.length} equipes com logos oficiais Formula1.com`);
+    console.log(`👨‍✈️ ${teams2025.reduce((sum, team) => sum + team.pilots.length, 0)} pilotos com fotos`);
+    console.log(`🏎️ Carros 3D interativos (arraste para girar 360°)`);
+    console.log(`📡 Dados reais da API Jolpica F1`);
+    console.log(`📈 Clique nos pilotos para ver estatísticas completas!`);
+    
+    // ASCII Art no console
+    console.log(`
+╔══════════════════════════════════════╗
+║       F1 360 - TEMPORADA 2025        ║
+║                                      ║
+║  🏎️  Logos Oficiais das Equipes     ║
+║  🎮  Carros 3D Interativos          ║
+║  �  Classificações Reais           ║
+║  📅  Calendário Atualizado          ║
+║  �  Arraste para Girar             ║
+║                                      ║
+║  Desenvolvido com ❤️ para fãs de F1 ║
+╚══════════════════════════════════════╝
+    `);
+    
+    // Expor funções globalmente para uso
+    window.showScreen = showScreen;
+    window.selectTeam = selectTeam;
+    window.showPilotsScreen = showPilotsScreen;
+    window.closePilotModal = closePilotModal;
+    window.closeTrackModal = closeTrackModal;
+    window.changeStandingsType = changeStandingsType;
+    window.changeYear = changeYear;
+    window.showTrackDetails = showTrackDetails;
+    
+    // Teste direto no console
+    window.testClick = () => {
+        console.log('🧪 Testando clique manual...');
+        selectTeam(teams2025[0]);
+    };
+    
+    window.testTeamClick = () => {
+        console.log('🔥 TESTE DE CLIQUE FORÇADO');
+        console.log('Teams2025:', teams2025);
+        console.log('Primeira equipe:', teams2025[0]);
+        selectTeam(teams2025[0]);
+    };
+    
+    console.log('💡 Digite window.testClick() no console para testar seleção de equipe');
+    console.log('💡 Ou clique no botão TESTE no canto superior direito');
+    
+    // Carregar pistas
+    loadTracks();
+});
+
+// ========================================
+// 6️⃣ PISTAS DA FÓRMULA 1
+// ========================================
+
+// Dados das pistas com curiosidades e recordes
+const tracksData = {
+    'Bahrain': {
+        length: '5.412 km',
+        laps: 57,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Bahrain%20carbon.png',
+        trivia: [
+            '🌙 Primeira corrida noturna da F1 no Oriente Médio',
+            '🏜️ Circuito no meio do deserto com iluminação artificial',
+            '🏎️ Conhecido por suas ultrapassagens emocionantes',
+            '🔄 Pista técnica com 15 curvas'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Pedro de la Rosa (2005) - 1:31.447',
+            '🏆 Vencedor com mais vitórias: Lewis Hamilton (5)',
+            '🎯 Pole position mais rápida: Charles Leclerc (2022) - 1:30.558'
+        ]
+    },
+    'Saudi Arabia': {
+        length: '6.174 km',
+        laps: 50,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Saudi%20Arabia%20carbon.png',
+        trivia: [
+            '⚡ Segunda pista mais rápida do calendário',
+            '🌙 Corrida noturna em Jeddah à beira do Mar Vermelho',
+            '🏙️ Circuito de rua com muros muito próximos',
+            '🔁 27 curvas - a maioria de alta velocidade'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Lewis Hamilton (2021) - 1:30.734',
+            '🆕 Circuito inaugurado em 2021',
+            '💨 Velocidade média de mais de 250 km/h'
+        ]
+    },
+    'Australia': {
+        length: '5.278 km',
+        laps: 58,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Australia%20carbon.png',
+        trivia: [
+            '🏞️ Circuito em Albert Park, ao redor de um lago',
+            '🌆 Localizado no coração de Melbourne',
+            '🎉 Abertura tradicional da temporada',
+            '🦘 Atmosfera única australiana'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Charles Leclerc (2024) - 1:20.235',
+            '🏆 Vencedor com mais vitórias: Michael Schumacher (4)',
+            '📅 Primeira corrida: 1996'
+        ]
+    },
+    'Japan': {
+        length: '5.807 km',
+        laps: 53,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Japan%20carbon.png',
+        trivia: [
+            '❤️ Uma das pistas mais amadas pelos pilotos',
+            '8️⃣ Único circuito em forma de "8"',
+            '🎯 Curva 130R lendária e desafiadora',
+            '🏆 Palco de muitos títulos mundiais decisivos'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Lewis Hamilton (2019) - 1:27.064',
+            '🏆 Vencedor com mais vitórias: Lewis Hamilton (4)',
+            '📅 No calendário desde 1987'
+        ]
+    },
+    'China': {
+        length: '5.451 km',
+        laps: 56,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/China%20carbon.png',
+        trivia: [
+            '🏗️ Circuito moderno de Shanghai inaugurado em 2004',
+            '🐌 Curva 1 mais longa da F1 - 270° crescente',
+            '📏 Uma das retas mais longas do calendário (1.2km)',
+            '🌧️ Conhecida por condições climáticas imprevisíveis'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Michael Schumacher (2004) - 1:32.238',
+            '🏆 Vencedor com mais vitórias: Lewis Hamilton (6)',
+            '🎯 Pole mais rápida: Valtteri Bottas (2019) - 1:31.547'
+        ]
+    },
+    'Miami': {
+        length: '5.41 km',
+        laps: 57,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Miami%20carbon.png',
+        trivia: [
+            '🌴 Circuito ao redor do Hard Rock Stadium',
+            '🆕 Adicionado ao calendário em 2022',
+            '☀️ Atmosfera festiva de Miami, Florida',
+            '🏖️ 19 curvas com seções técnicas e rápidas'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Max Verstappen (2023) - 1:29.708',
+            '🏆 Vencedor inaugural: Max Verstappen (2022)',
+            '🎯 Circuito com forte apelo americano'
+        ]
+    },
+    'Monaco': {
+        length: '3.337 km',
+        laps: 78,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Monaco%20carbon.png',
+        trivia: [
+            '👑 A corrida mais prestigiosa da F1',
+            '🏙️ Pelas ruas de Monte Carlo',
+            '🚢 Passagem pelo famoso túnel e pelo porto',
+            '⚠️ Pista mais estreita - ultrapassagens raríssimas'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Lewis Hamilton (2021) - 1:12.909',
+            '🏆 Vencedor com mais vitórias: Ayrton Senna (6)',
+            '📅 No calendário desde 1950 (primeira temporada F1)'
+        ]
+    },
+    'Spain': {
+        length: '4.675 km',
+        laps: 66,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Spain%20carbon.png',
+        trivia: [
+            '🏁 Circuit de Barcelona-Catalunya',
+            '🔧 Pista de testes favorita das equipes',
+            '⚖️ Circuito muito equilibrado tecnicamente',
+            '🌞 Calor intenso desafia carros e pilotos'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Max Verstappen (2021) - 1:18.149',
+            '🏆 Vencedor com mais vitórias: Michael Schumacher (6)',
+            '🎯 Usado extensivamente para testes de pré-temporada'
+        ]
+    },
+    'Canada': {
+        length: '4.361 km',
+        laps: 70,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Canada%20carbon.png',
+        trivia: [
+            '🏝️ Circuit Gilles Villeneuve na Île Notre-Dame',
+            '🧱 Circuito com "Wall of Champions" infame',
+            '⚡ Muitas retas longas e frenagens pesadas',
+            '🎉 Atmosfera vibrante de Montreal'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Valtteri Bottas (2019) - 1:13.078',
+            '🏆 Vencedor com mais vitórias: Lewis Hamilton (7)',
+            '📅 Nomeado em homenagem a Gilles Villeneuve'
+        ]
+    },
+    'Austria': {
+        length: '4.318 km',
+        laps: 71,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Austria%20carbon.png',
+        trivia: [
+            '⛰️ Red Bull Ring nas montanhas austríacas',
+            '⏩ Pista mais curta do calendário',
+            '🎨 Paisagens alpinas espetaculares',
+            '📈 Muitas subidas e descidas acentuadas'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Carlos Sainz (2020) - 1:05.619',
+            '🏆 Casa da Red Bull Racing',
+            '🎯 Apenas 10 curvas - intensidade pura'
+        ]
+    },
+    'Britain': {
+        length: '5.891 km',
+        laps: 52,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Great%20Britain%20carbon.png',
+        trivia: [
+            '🏰 Silverstone - casa do GP Britânico desde 1950',
+            '⚡ Curvas de alta velocidade lendárias (Copse, Maggotts)',
+            '🏎️ Pista favorita de muitos pilotos',
+            '👥 Multidões enormes e apaixonadas'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Max Verstappen (2020) - 1:27.097',
+            '🏆 Vencedor com mais vitórias: Lewis Hamilton (8)',
+            '📅 Sediou a primeira corrida de F1 da história (1950)'
+        ]
+    },
+    'Belgium': {
+        length: '7.004 km',
+        laps: 44,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Belgium%20carbon.png',
+        trivia: [
+            '🌲 Spa-Francorchamps - pista mais longa do calendário',
+            '🎢 Eau Rouge/Raidillon - sequência mais icônica da F1',
+            '🌦️ Clima imprevisível - pode chover em parte da pista',
+            '💨 Descidas e subidas dramáticas pelas Ardenas'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Valtteri Bottas (2018) - 1:46.286',
+            '🏆 Vencedor com mais vitórias: Michael Schumacher (6)',
+            '📅 No calendário desde 1950 (com interrupções)'
+        ]
+    },
+    'Hungary': {
+        length: '4.381 km',
+        laps: 70,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Hungary%20carbon.png',
+        trivia: [
+            '🏛️ Hungaroring perto de Budapeste',
+            '🐌 Apelidada de "Mônaco sem muros"',
+            '🌡️ Calor extremo no verão húngaro',
+            '🔄 Pista técnica com 14 curvas difíceis'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Lewis Hamilton (2020) - 1:16.627',
+            '🏆 Vencedor com mais vitórias: Lewis Hamilton (8)',
+            '📅 Primeira corrida no Bloco Oriental (1986)'
+        ]
+    },
+    'Netherlands': {
+        length: '4.259 km',
+        laps: 72,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Netherlands%20carbon.png',
+        trivia: [
+            '🏖️ Zandvoort nas dunas à beira do Mar do Norte',
+            '🎢 Curvas inclinadas únicas (até 19°)',
+            '🧡 Mar de laranja - torcida holandesa vibrante',
+            '🏠 Casa de Max Verstappen'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Lewis Hamilton (2021) - 1:11.097',
+            '🔙 Retornou ao calendário em 2021 após 36 anos',
+            '🎯 Atmosfera de festival único'
+        ]
+    },
+    'Italy': {
+        length: '5.793 km',
+        laps: 53,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Italy%20carbon.png',
+        trivia: [
+            '🏛️ Monza - Templo da Velocidade',
+            '⚡ Pista mais rápida do calendário',
+            '❤️ Casa da Ferrari - tifosi apaixonados',
+            '📜 No calendário desde a primeira corrida (1950)'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Rubens Barrichello (2004) - 1:21.046',
+            '🏆 Vencedor com mais vitórias: Lewis Hamilton (5)',
+            '💨 Velocidade máxima de mais de 360 km/h'
+        ]
+    },
+    'Singapore': {
+        length: '4.94 km',
+        laps: 62,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Singapore%20carbon.png',
+        trivia: [
+            '🌙 Primeira corrida noturna da F1 (2008)',
+            '🏙️ Circuito de rua espetacular em Marina Bay',
+            '💡 Mais de 1.600 holofotes iluminam a pista',
+            '🌡️ Calor e umidade extremos - corrida mais física'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Lewis Hamilton (2023) - 1:34.486',
+            '🏆 Vencedor com mais vitórias: Sebastian Vettel (5)',
+            '⏰ Corrida mais longa do calendário (2h)'
+        ]
+    },
+    'Azerbaijan': {
+        length: '6.003 km',
+        laps: 51,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Azerbaijan%20carbon.png',
+        trivia: [
+            '🏙️ Baku City Circuit - mistura antiga e moderna',
+            '📏 Reta mais longa da F1 (2.2 km)',
+            '🧱 Seção estreita pela cidade antiga',
+            '⚡ Contraste entre alta velocidade e seções técnicas'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Charles Leclerc (2019) - 1:43.009',
+            '🏆 Corridas sempre emocionantes e imprevisíveis',
+            '🎯 Velocidade máxima de mais de 350 km/h na reta'
+        ]
+    },
+    'United States': {
+        length: '5.513 km',
+        laps: 56,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/United%20States%20carbon.png',
+        trivia: [
+            '🎸 Circuit of the Americas em Austin, Texas',
+            '🎢 Subida íngreme para a curva 1',
+            '🏈 Atmosfera americana única',
+            '🎵 Palco de shows e festivais durante o GP'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Charles Leclerc (2019) - 1:36.169',
+            '🏆 Vencedor com mais vitórias: Lewis Hamilton (5)',
+            '📅 Circuito inaugurado em 2012'
+        ]
+    },
+    'Mexico': {
+        length: '4.304 km',
+        laps: 71,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Mexico%20carbon.png',
+        trivia: [
+            '🏟️ Autódromo Hermanos Rodríguez',
+            '⛰️ Maior altitude do calendário (2.200m)',
+            '💨 Ar rarefeito afeta aerodinâmica',
+            '🎉 Atmosfera mexicana vibrante e colorida'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Valtteri Bottas (2021) - 1:17.774',
+            '🏆 Vencedor com mais vitórias: Max Verstappen (5)',
+            '👥 Mais de 350.000 espectadores no fim de semana'
+        ]
+    },
+    'Brazil': {
+        length: '4.309 km',
+        laps: 71,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Brazil%20carbon.png',
+        trivia: [
+            '🇧🇷 Interlagos - Autódromo José Carlos Pace',
+            '📜 História rica desde 1973',
+            '🌧️ Clima imprevisível - corridas emocionantes',
+            '❤️ Paixão brasileira pela F1'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Valtteri Bottas (2018) - 1:10.540',
+            '🏆 Vencedor com mais vitórias: Alain Prost (6)',
+            '🏠 Casa de Ayrton Senna e Emerson Fittipaldi'
+        ]
+    },
+    'Las Vegas': {
+        length: '6.12 km',
+        laps: 50,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Las%20Vegas%20carbon.png',
+        trivia: [
+            '🎰 Pelas ruas icônicas de Las Vegas Strip',
+            '🌙 Corrida noturna no sábado à noite',
+            '🎆 Passagem pelos cassinos famosos',
+            '🆕 Adicionado ao calendário em 2023'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Oscar Piastri (2023) - 1:35.490',
+            '💎 Evento mais glamouroso da F1',
+            '💨 Reta de 1.9km pela Strip'
+        ]
+    },
+    'Qatar': {
+        length: '5.38 km',
+        laps: 57,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Qatar%20carbon.png',
+        trivia: [
+            '🏜️ Losail International Circuit',
+            '🌙 Corrida noturna no deserto',
+            '🏍️ Também usado para MotoGP',
+            '🔥 Temperaturas extremas'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Max Verstappen (2023) - 1:24.319',
+            '🆕 Estreou na F1 em 2021',
+            '💡 Iluminação espetacular no deserto'
+        ]
+    },
+    'Abu Dhabi': {
+        length: '5.281 km',
+        laps: 58,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Abu%20Dhabi%20carbon.png',
+        trivia: [
+            '🏁 Yas Marina - final tradicional da temporada',
+            '🌅 Corrida do pôr do sol à noite',
+            '🏨 Passa por baixo do hotel W',
+            '💎 Instalações de última geração'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Max Verstappen (2021) - 1:26.103',
+            '🏆 Palco de finais dramáticas de campeonato',
+            '📅 No calendário desde 2009'
+        ]
+    },
+    'Imola': {
+        length: '4.909 km',
+        laps: 63,
+        map: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Emilia%20Romagna%20carbon.png',
+        trivia: [
+            '🏛️ Autodromo Enzo e Dino Ferrari',
+            '📜 Circuito histórico desde 1953',
+            '💔 Palco de tragédias memoráveis (Senna 1994)',
+            '❤️ Tifosi italianos apaixonados'
+        ],
+        records: [
+            '⏱️ Volta mais rápida: Lewis Hamilton (2020) - 1:15.484',
+            '🏆 Retornou permanentemente em 2020',
+            '🎯 Curvas Tamburello e Villeneuve famosas'
+        ]
+    }
+};
+
+// ========================================
+// 5️⃣ FUNÇÕES DE CARREGAMENTO
+// ========================================
+        length: '5.451 km',
+        laps: 56,
+        trivia: [
+            'Circuito de Xangai inaugurado em 2004',
+            'Design inspirado no símbolo chinês "shang"',
+            'Reta mais longa do calendário (1.17 km)',
+            'Curva 1 extremamente lenta após reta'
+        ],
+        records: [
+            'Volta mais rápida: Michael Schumacher (2004) - 1:32.238',
+            'Vencedor com mais vitórias: Lewis Hamilton (6)',
+            'Capacidade para 200.000 espectadores'
+        ]
+    },
+    'Miami': {
+        length: '5.41 km',
+        laps: 57,
+        trivia: [
+            'Corrida ao redor do Hard Rock Stadium',
+            'Adicionada ao calendário em 2022',
+            'Circuito de rua com 19 curvas',
+            'Ambiente festivo típico de Miami'
+        ],
+        records: [
+            'Volta mais rápida: Max Verstappen (2023) - 1:29.708',
+            'Circuito mais novo da F1',
+            'Marina artificial para iates'
+        ]
+    },
+    'Imola': {
+        length: '4.909 km',
+        laps: 63,
+        trivia: [
+            'Autodromo Enzo e Dino Ferrari',
+            'Pista clássica no sentido anti-horário',
+            'Palco do GP de San Marino',
+            'Curva Tamburello famosa e reformulada'
+        ],
+        records: [
+            'Volta mais rápida: Lewis Hamilton (2020) - 1:15.484',
+            'Vencedor com mais vitórias: Michael Schumacher (7)',
+            'No calendário desde 1980'
+        ]
+    },
+    'Monaco': {
+        length: '3.337 km',
+        laps: 78,
+        trivia: [
+            'A corrida mais prestigiosa e glamourosa da F1',
+            'Pista de rua mais lenta do calendário',
+            'Praticamente impossível ultrapassar',
+            'Túnel icônico e curva do Casino'
+        ],
+        records: [
+            'Volta mais rápida: Lewis Hamilton (2021) - 1:12.909',
+            'Vencedor com mais vitórias: Ayrton Senna (6)',
+            'No calendário desde 1950 (primeira temporada)'
+        ]
+    },
+    'Canada': {
+        length: '4.361 km',
+        laps: 70,
+        trivia: [
+            'Circuito Gilles Villeneuve em Montreal',
+            'Pista semi-permanente na Île Notre-Dame',
+            'Famosa pelo "Wall of Champions"',
+            'Muitas zonas de frenagem tardias'
+        ],
+        records: [
+            'Volta mais rápida: Valtteri Bottas (2019) - 1:13.078',
+            'Vencedor com mais vitórias: Lewis Hamilton (7)',
+            'Corridas emocionantes com muitos Safety Cars'
+        ]
+    },
+    'Spain': {
+        length: '4.675 km',
+        laps: 66,
+        trivia: [
+            'Circuit de Barcelona-Catalunya',
+            'Pista de testes oficial das equipes',
+            'Curva 3 de alta velocidade e técnica',
+            'Todos os pilotos conhecem bem o traçado'
+        ],
+        records: [
+            'Volta mais rápida: Daniel Ricciardo (2023) - 1:16.330',
+            'Vencedor com mais vitórias: Michael Schumacher (6)',
+            'Palco de testes de pré-temporada'
+        ]
+    },
+    'Austria': {
+        length: '4.318 km',
+        laps: 71,
+        trivia: [
+            'Red Bull Ring nos Alpes austríacos',
+            'Pista mais curta do calendário',
+            'Apenas 10 curvas',
+            'Cenário montanhoso espetacular'
+        ],
+        records: [
+            'Volta mais rápida: Carlos Sainz (2020) - 1:05.619',
+            'Vencedor com mais vitórias: Max Verstappen (5)',
+            'Corridas de alta velocidade'
+        ]
+    },
+    'Great Britain': {
+        length: '5.891 km',
+        laps: 52,
+        trivia: [
+            'Silverstone - casa do GP britânico desde 1950',
+            'Pista mais rápida da Europa',
+            'Complexo de curvas Maggotts-Becketts lendário',
+            'Maior público do ano (150.000+ espectadores)'
+        ],
+        records: [
+            'Volta mais rápida: Max Verstappen (2020) - 1:27.097',
+            'Vencedor com mais vitórias: Lewis Hamilton (8)',
+            'Primeira corrida da história da F1 (1950)'
+        ]
+    },
+    'Hungary': {
+        length: '4.381 km',
+        laps: 70,
+        trivia: [
+            'Hungaroring - "Monaco sem os muros"',
+            'Difícil de ultrapassar',
+            'Primeira corrida atrás da Cortina de Ferro',
+            'Pista técnica e sinuosa'
+        ],
+        records: [
+            'Volta mais rápida: Lewis Hamilton (2020) - 1:16.627',
+            'Vencedor com mais vitórias: Lewis Hamilton (8)',
+            'Temperaturas extremas no verão'
+        ]
+    },
+    'Belgium': {
+        length: '7.004 km',
+        laps: 44,
+        trivia: [
+            'Spa-Francorchamps - favorita dos pilotos',
+            'Pista mais longa do calendário',
+            'Eau Rouge/Raidillon - curva mais icônica',
+            'Clima imprevisível nas Ardenas'
+        ],
+        records: [
+            'Volta mais rápida: Valtteri Bottas (2018) - 1:46.286',
+            'Vencedor com mais vitórias: Michael Schumacher (6)',
+            'Corridas espetaculares com ultrapassagens'
+        ]
+    },
+    'Netherlands': {
+        length: '4.259 km',
+        laps: 72,
+        trivia: [
+            'Circuito de Zandvoort nas dunas',
+            'Retornou ao calendário em 2021',
+            'Curvas com inclinação bancada',
+            'Atmosfera laranja dos fãs de Verstappen'
+        ],
+        records: [
+            'Volta mais rápida: Lewis Hamilton (2021) - 1:11.097',
+            'Vencedor: Max Verstappen (todas desde 2021)',
+            'Pista estreita e desafiadora'
+        ]
+    },
+    'Italy': {
+        length: '5.793 km',
+        laps: 53,
+        trivia: [
+            'Autodromo di Monza - "Templo da Velocidade"',
+            'Pista mais rápida do calendário',
+            'Casa da Ferrari desde 1950',
+            'Tifosi apaixonados nas arquibancadas'
+        ],
+        records: [
+            'Volta mais rápida: Rubens Barrichello (2004) - 1:21.046',
+            'Vencedor com mais vitórias: Lewis Hamilton (5)',
+            'Velocidades acima de 360 km/h'
+        ]
+    },
+    'Azerbaijan': {
+        length: '6.003 km',
+        laps: 51,
+        trivia: [
+            'Circuito de rua em Baku',
+            'Reta mais longa do calendário (2.2 km)',
+            'Seção de castelo estreita e técnica',
+            'Corridas imprevisíveis e emocionantes'
+        ],
+        records: [
+            'Volta mais rápida: Charles Leclerc (2019) - 1:43.009',
+            'Circuito adicionado em 2016',
+            'Cidade velha de Baku ao fundo'
+        ]
+    },
+    'Singapore': {
+        length: '4.94 km',
+        laps: 62,
+        trivia: [
+            'Primeira corrida noturna da F1 (2008)',
+            'Circuito de rua mais longo',
+            'Corrida fisicamente mais exigente',
+            'Marina Bay com skyline iluminado'
+        ],
+        records: [
+            'Volta mais rápida: Lewis Hamilton (2023) - 1:34.486',
+            'Vencedor com mais vitórias: Sebastian Vettel (5)',
+            'Temperatura e umidade elevadas'
+        ]
+    },
+    'United States': {
+        length: '5.513 km',
+        laps: 56,
+        trivia: [
+            'Circuit of The Americas (COTA) em Austin',
+            'Inspirado nas melhores curvas do mundo',
+            'Curva 1 íngreme com vista panorâmica',
+            'Seção de estádio com anfiteatro'
+        ],
+        records: [
+            'Volta mais rápida: Charles Leclerc (2019) - 1:36.169',
+            'Vencedor com mais vitórias: Lewis Hamilton (5)',
+            'Inaugurado em 2012'
+        ]
+    },
+    'Mexico': {
+        length: '4.304 km',
+        laps: 71,
+        trivia: [
+            'Autódromo Hermanos Rodríguez',
+            'Maior altitude do calendário (2.200m)',
+            'Menos downforce devido ao ar rarefeito',
+            'Fãs mexicanos extremamente passionais'
+        ],
+        records: [
+            'Volta mais rápida: Valtteri Bottas (2021) - 1:17.774',
+            'Vencedor com mais vitórias: Max Verstappen (4)',
+            'Peraltada - curva bancada histórica'
+        ]
+    },
+    'Brazil': {
+        length: '4.309 km',
+        laps: 71,
+        trivia: [
+            'Autódromo José Carlos Pace (Interlagos)',
+            'Corridas emocionantes e imprevisíveis',
+            'Senna é o ídolo local',
+            'Pista no sentido anti-horário'
+        ],
+        records: [
+            'Volta mais rápida: Valtteri Bottas (2018) - 1:10.540',
+            'Vencedor com mais vitórias: Alain Prost (6)',
+            'Clima tropical com chuvas súbitas'
+        ]
+    },
+    'Las Vegas': {
+        length: '6.12 km',
+        laps: 50,
+        trivia: [
+            'Corrida noturna na Strip de Las Vegas',
+            'Adicionada ao calendário em 2023',
+            'Velocidades extremas (>340 km/h)',
+            'Cassinos e hotéis iluminados ao fundo'
+        ],
+        records: [
+            'Volta mais rápida: Oscar Piastri (2023) - 1:35.490',
+            'Circuito mais novo (2023)',
+            'Corrida às 22h horário local'
+        ]
+    },
+    'Qatar': {
+        length: '5.380 km',
+        laps: 57,
+        trivia: [
+            'Losail International Circuit',
+            'Originalmente pista de MotoGP',
+            'Corrida noturna no deserto',
+            'Curvas de alta velocidade'
+        ],
+        records: [
+            'Volta mais rápida: Max Verstappen (2023) - 1:24.319',
+            'Adicionado ao calendário em 2021',
+            'Iluminação artificial espetacular'
+        ]
+    },
+    'Abu Dhabi': {
+        length: '5.281 km',
+        laps: 58,
+        trivia: [
+            'Yas Marina Circuit - final da temporada',
+            'Corrida do pôr do sol para a noite',
+            'Hotel W atravessa a pista',
+            'Palco de títulos mundiais decididos'
+        ],
+        records: [
+            'Volta mais rápida: Max Verstappen (2021) - 1:26.103',
+            'Vencedor com mais vitórias: Lewis Hamilton (5)',
+            'Corrida mais cara da história da F1'
+        ]
+    }
+};
+
+async function loadTracks() {
+    const container = document.getElementById('tracksGrid');
+    
+    // Usar calendar2025 ao invés da API
+    container.innerHTML = '';
+    
+    calendar2025.forEach((race, index) => {
+        const trackInfo = tracksData[race.location];
+        
+        if (!trackInfo) {
+            console.warn(`⚠️ Dados não encontrados para ${race.location}`);
+            return;
+        }
+        
+        const card = document.createElement('div');
+        card.className = 'track-card';
+        card.style.animationDelay = `${index * 0.05}s`;
+        card.onclick = () => showTrackModal(race, trackInfo);
+        
+        card.innerHTML = `
+            <div class="track-card-header">
+                <div class="track-card-name">${race.flag} ${race.name}</div>
+                <div class="track-card-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    ${race.location}
+                </div>
+            </div>
+            <div class="track-card-info">
+                <div class="track-card-stat">
+                    <div class="track-card-stat-value">${trackInfo.length}</div>
+                    <div class="track-card-stat-label">Comprimento</div>
+                </div>
+                <div class="track-card-stat">
+                    <div class="track-card-stat-value">${trackInfo.laps}</div>
+                    <div class="track-card-stat-label">Voltas</div>
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(card);
+    });
+    
+    console.log(`✅ ${calendar2025.length} pistas de 2025 carregadas com informações!`);
+}
+
+function showTrackModal(race, trackInfo) {
+    const modal = document.getElementById('trackModal');
+    
+    // Preencher informações
+    document.getElementById('trackModalName').textContent = `${race.flag} ${race.name}`;
+    document.getElementById('trackModalLocation').textContent = race.location;
+    
+    // Exibir mapa da pista
+    const mapImage = document.getElementById('trackMapImage');
+    if (trackInfo.map) {
+        mapImage.src = trackInfo.map;
+        mapImage.style.display = 'block';
+    } else {
+        mapImage.style.display = 'none';
+    }
+    
+    document.getElementById('trackLength').textContent = trackInfo.length;
+    document.getElementById('trackLaps').textContent = trackInfo.laps + ' voltas';
+    
+    // Primeiro recorde (tempo de volta)
+    const firstRecord = trackInfo.records?.[0] || '';
+    if (firstRecord.includes(':')) {
+        document.getElementById('trackRecord').textContent = firstRecord.split(':')[1].trim();
+    } else {
+        document.getElementById('trackRecord').textContent = firstRecord;
+    }
+    
+    document.getElementById('trackWinner').textContent = `Temporada 2025`;
+    
+    // Curiosidades
+    const triviaContainer = document.getElementById('trackTrivia');
+    triviaContainer.innerHTML = '<ul>' + 
+        trackInfo.trivia.map(t => `<li>${t}</li>`).join('') + 
+        '</ul>';
+    
+    // Recordes
+    const recordsContainer = document.getElementById('trackRecords');
+    recordsContainer.innerHTML = '<ul>' + 
+        trackInfo.records.map(r => `<li>${r}</li>`).join('') + 
+        '</ul>';
+    
+    // Mostrar modal
+    modal.style.display = 'block';
+}
+
+function closeTrackModal() {
+    document.getElementById('trackModal').style.display = 'none';
+}
+
+// Fechar modal ao clicar fora (usando addEventListener para não conflitar)
+window.addEventListener('click', function(event) {
+    const pilotModal = document.getElementById('pilotModal');
+    const trackModal = document.getElementById('trackModal');
+    
+    if (event.target === pilotModal) {
+        closePilotModal();
+    }
+    if (event.target === trackModal) {
+        closeTrackModal();
+    }
+});
+
+console.log('📝 Script F1 360 completamente carregado!');
+

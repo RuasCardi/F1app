@@ -1,0 +1,2053 @@
+/* ========================================
+   F1 360 - TEMPORADA 2025
+   Design moderno inspirado no mockup
+======================================== */
+
+/* Reset e Variáveis */
+:root {
+    /* Cores das Equipes 2025 */
+    --redbull-color: #1E41FF;
+    --ferrari-color: #DC0000;
+    --mclaren-color: #FF8700;
+    --mercedes-color: #00D2BE;
+    --astonmartin-color: #006F62;
+    --alpine-color: #0090FF;
+    --haas-color: #F1F1F1;
+    --sauber-color: #D50032;
+    --williams-color: #005AFF;
+    
+    /* Cores do App */
+    --bg-light: #E8E8E8;
+    --bg-white: #FFFFFF;
+    --text-dark: #1A1A1A;
+    --text-gray: #666666;
+    --shadow: rgba(0, 0, 0, 0.15);
+    --shadow-strong: rgba(0, 0, 0, 0.25);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ========================================
+   SISTEMA DE TELAS
+======================================== */
+
+.screen {
+    display: none;
+    min-height: 100vh;
+    padding: 20px;
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 0.4s ease-out;
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ========================================
+   1️⃣ TELA INICIAL - EQUIPES
+======================================== */
+
+.header {
+    text-align: center;
+    padding: 40px 20px 30px;
+}
+
+.app-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--text-dark);
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.app-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-header {
+    padding: 12px 24px;
+    background: var(--text-dark);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-header:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px var(--shadow);
+}
+
+.teams-scroll-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+.teams-horizontal-scroll {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: 100%;
+}
+
+.teams-horizontal-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.team-card {
+    min-width: 280px;
+    max-width: 280px;
+    height: 320px;
+    background: var(--bg-white);
+    border-radius: 24px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px var(--shadow);
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+    pointer-events: auto;
+    user-select: none;
+}
+
+.team-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: var(--team-color);
+    pointer-events: none;
+}
+
+.team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 16px 40px var(--shadow-strong);
+}
+
+.team-card:active {
+    transform: translateY(-5px);
+}
+
+.team-logo-container {
+    width: 120px;
+    height: 120px;
+    background: white;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.team-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.team-logo-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.team-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.team-info {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    text-align: center;
+}
+
+.scroll-hint {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-gray);
+}
+
+.scroll-hint i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    animation: pointAnimation 2s ease-in-out infinite;
+}
+
+@keyframes pointAnimation {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+}
+
+/* ========================================
+   2️⃣ TELA DO CARRO 3D
+======================================== */
+
+.car-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: var(--bg-white);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px var(--shadow);
+    margin-bottom: 30px;
+}
+
+.back-btn {
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: var(--bg-light);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    color: var(--text-dark);
+}
+
+.back-btn:hover {
+    background: var(--text-dark);
+    color: white;
+    transform: translateX(-5px);
+}
+
+.team-name-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.car-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.car-3d-viewer {
+    width: 100%;
+    max-width: 800px;
+    height: 500px;
+    background: var(--bg-white);
+    border-radius: 24px;
+    box-shadow: 0 12px 32px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.car-placeholder {
+    text-align: center;
+    color: var(--text-gray);
+}
+
+.car-placeholder i {
+    font-size: 8rem;
+    margin-bottom: 20px;
+    animation: carRotate 3s linear infinite;
+}
+
+@keyframes carRotate {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+.car-placeholder p {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.rotation-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-light);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.rotation-hint i {
+    font-size: 1rem;
+    animation: rotateIcon 2s linear infinite;
+}
+
+@keyframes rotateIcon {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.car-actions {
+    padding: 20px;
+    text-align: center;
+}
+
+.btn-view-pilots {
+    padding: 20px 60px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 16px;
+    background: var(--text-dark);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 8px 24px var(--shadow);
+}
+
+.btn-view-pilots:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px var(--shadow-strong);
+}
+
+.btn-view-pilots:active {
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   3️⃣ TELA DE PILOTOS
+======================================== */
+
+.pilots-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: var(--bg-white);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px var(--shadow);
+    margin-bottom: 30px;
+}
+
+.pilots-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.pilots-container {
+    flex: 1;
+    padding: 20px;
+}
+
+.pilots-list {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pilot-card {
+    background: var(--bg-white);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 6px 20px var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s ease;
+}
+
+.pilot-card:hover {
+    transform: translateX(10px);
+    box-shadow: 0 8px 28px var(--shadow-strong);
+}
+
+.pilot-number {
+    width: 60px;
+    height: 60px;
+    background: var(--team-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: white;
+    flex-shrink: 0;
+}
+
+.pilot-info {
+    flex: 1;
+}
+
+.pilot-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+}
+
+.pilot-nationality {
+    font-size: 1rem;
+    color: var(--text-gray);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pilots-actions {
+    padding: 20px;
+    text-align: center;
+}
+
+.btn-back {
+    padding: 18px 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border: 3px solid var(--text-dark);
+    border-radius: 16px;
+    background: transparent;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-back:hover {
+    background: var(--text-dark);
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px var(--shadow);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+======================================== */
+
+@media (max-width: 768px) {
+    .app-title {
+        font-size: 3rem;
+    }
+
+    .team-card {
+        min-width: 240px;
+        max-width: 240px;
+        height: 280px;
+    }
+
+    .team-logo-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    .team-logo {
+        font-size: 3rem;
+    }
+
+    .team-name {
+        font-size: 1.5rem;
+    }
+
+    .car-3d-viewer {
+        height: 400px;
+    }
+
+    .team-name-title,
+    .pilots-title {
+        font-size: 2rem;
+    }
+
+    .btn-view-pilots {
+        padding: 18px 40px;
+        font-size: 1.1rem;
+    }
+
+    .pilot-card {
+        padding: 20px;
+    }
+
+    .pilot-name {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-title {
+        font-size: 2.5rem;
+    }
+
+    .team-card {
+        min-width: 220px;
+        max-width: 220px;
+    }
+
+    .car-3d-viewer {
+        height: 350px;
+    }
+
+    .btn-view-pilots,
+    .btn-back {
+        width: 100%;
+    }
+}
+
+/* ========================================
+   MODAL DE ESTATÍSTICAS DO PILOTO
+======================================== */
+
+.pilot-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.3s ease;
+}
+
+.pilot-modal-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    margin: 5% auto;
+    padding: 0;
+    border: none;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideDown 0.4s ease;
+    position: relative;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.pilot-modal-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: #fff;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.pilot-modal-close:hover,
+.pilot-modal-close:focus {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.pilot-modal-body {
+    padding: 30px;
+}
+
+.pilot-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.pilot-modal-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--team-color, #e10600);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.pilot-modal-info {
+    flex: 1;
+}
+
+.pilot-modal-info h2 {
+    font-size: 2.5rem;
+    margin: 0 0 10px 0;
+    color: #fff;
+    font-weight: 900;
+}
+
+.pilot-modal-details {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.pilot-modal-details span {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.pilot-modal-team {
+    font-size: 1.2rem;
+    color: var(--team-color, #e10600);
+    font-weight: 700;
+}
+
+.pilot-modal-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.pilot-stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.pilot-stat-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--team-color, #e10600);
+    transform: translateY(-5px);
+}
+
+.pilot-stat-card i {
+    font-size: 2rem;
+    color: var(--team-color, #e10600);
+    margin-bottom: 15px;
+}
+
+.pilot-stat-value {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.pilot-stat-label {
+    font-size: 0.9rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+    .pilot-modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+    
+    .pilot-modal-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .pilot-modal-photo {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .pilot-modal-info h2 {
+        font-size: 1.8rem;
+    }
+    
+    .pilot-modal-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .pilot-stat-card {
+        padding: 20px;
+    }
+    
+    .pilot-stat-value {
+        font-size: 2rem;
+    }
+}
+
+/* ========================================
+   ANIMAÇÕES EXTRAS
+======================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.team-card {
+    animation: fadeIn 0.6s ease-out backwards;
+}
+
+.team-card:nth-child(1) { animation-delay: 0.1s; }
+.team-card:nth-child(2) { animation-delay: 0.2s; }
+.team-card:nth-child(3) { animation-delay: 0.3s; }
+.team-card:nth-child(4) { animation-delay: 0.4s; }
+.team-card:nth-child(5) { animation-delay: 0.5s; }
+.team-card:nth-child(6) { animation-delay: 0.6s; }
+.team-card:nth-child(7) { animation-delay: 0.7s; }
+.team-card:nth-child(8) { animation-delay: 0.8s; }
+.team-card:nth-child(9) { animation-delay: 0.9s; }
+
+.pilot-card {
+    animation: fadeIn 0.5s ease-out backwards;
+}
+
+.pilot-card:nth-child(1) { animation-delay: 0.1s; }
+.pilot-card:nth-child(2) { animation-delay: 0.2s; }
+
+/* ========================================
+   4️⃣ TELA DE CLASSIFICAÇÕES
+======================================== */
+
+.standings-header,
+.calendar-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: var(--bg-white);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px var(--shadow);
+    margin-bottom: 20px;
+}
+
+.standings-title,
+.calendar-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.standings-tabs {
+    display: flex;
+    gap: 10px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 15px 20px;
+    background: var(--bg-white);
+    border: 2px solid var(--bg-light);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s;
+    color: var(--text-gray);
+}
+
+.tab-btn:hover {
+    border-color: var(--text-dark);
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background: var(--text-dark);
+    color: white;
+    border-color: var(--text-dark);
+}
+
+.standings-content {
+    padding: 0 20px;
+    position: relative;
+}
+
+.standings-table {
+    display: none;
+    background: var(--bg-white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px var(--shadow);
+}
+
+.standings-table.active {
+    display: block;
+}
+
+.standing-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 100px;
+    padding: 20px;
+    border-bottom: 1px solid var(--bg-light);
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.standing-row:hover {
+    background: var(--bg-light);
+}
+
+.standing-row:last-child {
+    border-bottom: none;
+}
+
+.position {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--text-dark);
+}
+
+.driver-info,
+.constructor-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.team-color-bar {
+    width: 4px;
+    height: 50px;
+    border-radius: 2px;
+}
+
+.driver-details,
+.constructor-details {
+    flex: 1;
+}
+
+.driver-name,
+.constructor-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.team-name {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.points {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--text-dark);
+    text-align: right;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+    color: var(--text-gray);
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--bg-light);
+    border-top-color: var(--text-dark);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ========================================
+   5️⃣ TELA DE CALENDÁRIO
+======================================== */
+
+.calendar-filters {
+    display: flex;
+    gap: 10px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 12px 24px;
+    background: var(--bg-white);
+    border: 2px solid var(--bg-light);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--text-dark);
+}
+
+.filter-btn:hover {
+    border-color: var(--text-dark);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: var(--text-dark);
+    color: white;
+    border-color: var(--text-dark);
+}
+
+.calendar-container {
+    padding: 0 20px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.race-card {
+    background: var(--bg-white);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 20px var(--shadow);
+    transition: all 0.3s;
+    border-left: 4px solid var(--text-dark);
+}
+
+.race-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px var(--shadow-strong);
+}
+
+.race-card.completed {
+    border-left-color: var(--success-green);
+}
+
+.race-card.upcoming {
+    border-left-color: var(--accent-gold);
+}
+
+.race-round {
+    display: inline-block;
+    background: var(--text-dark);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.race-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.race-circuit {
+    font-size: 0.95rem;
+    color: var(--text-gray);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.race-date {
+    font-size: 1rem;
+    color: var(--text-dark);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.race-status {
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.race-status.completed {
+    background: rgba(0, 208, 132, 0.1);
+    color: var(--success-green);
+}
+
+.race-status.upcoming {
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--accent-gold);
+}
+
+/* Variáveis adicionais */
+:root {
+    --success-green: #00d084;
+    --accent-gold: #ffd700;
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Navegação */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(13, 13, 19, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-red);
+}
+
+.logo i {
+    font-size: 2rem;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-red);
+    transition: width 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--text-primary);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: var(--text-primary);
+    transition: all 0.3s;
+}
+
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-top: 80px;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-dark);
+    opacity: 0.9;
+}
+
+.hero-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px);
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.hero-title {
+    font-family: 'Rajdhani', sans-serif;
+    margin-bottom: 1.5rem;
+}
+
+.title-line {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.title-main {
+    display: block;
+    font-size: 5rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 4rem;
+}
+
+.btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(225, 6, 0, 0.4);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 2px solid var(--primary-red);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-red);
+    transform: translateY(-2px);
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+/* Sections */
+.section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.section-title i {
+    color: var(--primary-red);
+}
+
+/* Loading */
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--primary-red);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Standings */
+.standings-container {
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.standings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-bottom: 3px solid var(--primary-red);
+}
+
+.standings-header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+    justify-content: center;
+}
+
+.standings-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: white;
+    margin: 0;
+}
+
+.year-selector {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--primary-red);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.year-selector:hover {
+    background: #c10500;
+    transform: scale(1.05);
+}
+
+.year-selector:focus {
+    box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.3);
+}
+
+.standing-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 120px 120px;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.standing-row:hover {
+    background: rgba(225, 6, 0, 0.05);
+    transform: translateX(5px);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.position {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-red);
+}
+
+.driver-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.driver-name {
+    font-weight: 600;
+}
+
+.team-name {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.points {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.wins {
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* Calendar */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.race-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.race-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-red);
+    box-shadow: 0 10px 30px rgba(225, 6, 0, 0.2);
+}
+
+.race-round {
+    display: inline-block;
+    background: var(--primary-red);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.race-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.race-circuit {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.race-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-gold);
+    font-weight: 600;
+}
+
+.race-status {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.race-status.completed {
+    background: rgba(0, 208, 132, 0.1);
+    color: var(--success-green);
+}
+
+.race-status.upcoming {
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--accent-gold);
+}
+
+/* Drivers */
+.drivers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.driver-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    transition: all 0.3s;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.driver-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-red);
+    box-shadow: 0 10px 30px rgba(225, 6, 0, 0.2);
+}
+
+.driver-number {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+.driver-card h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.driver-team {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.driver-nationality {
+    display: inline-block;
+    background: var(--darker-bg);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+/* Teams */
+.teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.team-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-red);
+    box-shadow: 0 10px 30px rgba(225, 6, 0, 0.2);
+}
+
+.team-card h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--primary-red);
+}
+
+.team-drivers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.team-driver {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: var(--darker-bg);
+    border-radius: 6px;
+}
+
+.team-nationality {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Footer */
+.footer {
+    background: var(--darker-bg);
+    border-top: 1px solid var(--border-color);
+    padding: 3rem 0 1rem;
+    margin-top: 5rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    margin-bottom: 1rem;
+    color: var(--primary-red);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section a:hover {
+    color: var(--text-primary);
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-bg);
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.social-links a:hover {
+    background: var(--primary-red);
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        flex-direction: column;
+        background: rgba(13, 13, 19, 0.98);
+        padding: 2rem;
+        transition: left 0.3s;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+}
+
+/* ========================================
+   TELA DE PISTAS
+======================================== */
+
+.tracks-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-bottom: 3px solid var(--primary-red);
+}
+
+.tracks-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: white;
+    margin: 0;
+}
+
+.tracks-content {
+    padding: 2rem;
+}
+
+.tracks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.track-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.track-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(225, 6, 0, 0.2);
+    border-color: var(--primary-red);
+}
+
+.track-card-header {
+    margin-bottom: 15px;
+}
+
+.track-card-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+}
+
+.track-card-location {
+    color: var(--text-gray);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.track-card-info {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.track-card-stat {
+    flex: 1;
+    text-align: center;
+}
+
+.track-card-stat-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-red);
+}
+
+.track-card-stat-label {
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    text-transform: uppercase;
+}
+
+/* Modal da Pista */
+.track-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.3s ease;
+}
+
+.track-modal-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    margin: 3% auto;
+    padding: 0;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 900px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideDown 0.4s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.track-modal-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: #fff;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.track-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.track-modal-body {
+    padding: 40px;
+    position: relative;
+}
+
+.track-modal-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.track-modal-header h2 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #fff;
+    margin: 0 0 10px 0;
+}
+
+.track-modal-location {
+    font-size: 1.2rem;
+    color: var(--primary-red);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.track-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.track-stat {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.track-stat:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+}
+
+.track-stat i {
+    font-size: 2rem;
+    color: var(--primary-red);
+    margin-bottom: 10px;
+}
+
+.track-stat-value {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #fff;
+    margin: 10px 0 5px;
+}
+
+.track-stat-label {
+    font-size: 0.85rem;
+    color: #aaa;
+    text-transform: uppercase;
+}
+
+.track-info-section {
+    margin-bottom: 25px;
+}
+
+.track-info-section h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.track-info-section h3 i {
+    color: var(--primary-red);
+}
+
+.track-trivia, .track-records {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    color: #ddd;
+    line-height: 1.8;
+}
+
+.track-trivia ul, .track-records ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.track-trivia li, .track-records li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.track-trivia li:last-child, .track-records li:last-child {
+    border-bottom: none;
+}
+
+.track-trivia li:before {
+    content: "🏁 ";
+    margin-right: 10px;
+}
+
+.track-records li:before {
+    content: "🏆 ";
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .tracks-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .track-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .track-modal-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+    
+    .track-modal-body {
+        padding: 25px;
+    }
+}    .title-main {
+        font-size: 3rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .hero-stats {
+        gap: 2rem;
+    }
+
+    .standings-header,
+    .standing-row {
+        grid-template-columns: 50px 1fr 80px;
+    }
+
+    .wins {
+        display: none;
+    }
+
+    .calendar-grid,
+    .drivers-grid,
+    .teams-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-main {
+        font-size: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+}

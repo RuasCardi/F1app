@@ -1,0 +1,23 @@
+{
+  "name": "f1-hub",
+  "version": "1.0.0",
+  "description": "Aplicativo web moderno para acompanhar a Fórmula 1",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "live-server"
+  },
+  "keywords": [
+    "formula1",
+    "f1",
+    "racing",
+    "motorsport",
+    "web-app"
+  ],
+  "author": "F1 Hub Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seu-usuario/f1-hub"
+  }
+}
