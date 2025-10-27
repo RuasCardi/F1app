@@ -96,6 +96,20 @@ body {
     margin-top: 20px;
 }
 
+@media (max-width: 768px) {
+    .header-actions {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-actions {
+        gap: 8px;
+        padding: 0 10px;
+    }
+}
+
 .btn-header {
     padding: 12px 24px;
     background: var(--text-dark);
@@ -109,6 +123,14 @@ body {
     align-items: center;
     gap: 8px;
     transition: all 0.3s;
+}
+
+@media (max-width: 480px) {
+    .btn-header {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+        gap: 6px;
+    }
 }
 
 .btn-header:hover {
@@ -232,6 +254,20 @@ body {
     color: var(--text-gray);
 }
 
+@media (max-width: 768px) {
+    .scroll-hint {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .scroll-hint {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+}
+
 .scroll-hint i {
     font-size: 2rem;
     margin-bottom: 10px;
@@ -258,6 +294,22 @@ body {
     margin-bottom: 30px;
 }
 
+@media (max-width: 768px) {
+    .car-header {
+        padding: 15px;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .car-header {
+        padding: 12px;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+}
+
 .back-btn {
     width: 50px;
     height: 50px;
@@ -271,6 +323,14 @@ body {
     transition: all 0.3s ease;
     font-size: 1.2rem;
     color: var(--text-dark);
+}
+
+@media (max-width: 480px) {
+    .back-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
 }
 
 .back-btn:hover {
@@ -743,6 +803,55 @@ body {
     }
 }
 
+@media (max-width: 480px) {
+    .pilot-modal-content {
+        width: 100%;
+        margin: 0;
+        height: 100vh;
+        border-radius: 0;
+        max-width: none;
+    }
+
+    .pilot-modal-header {
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+    }
+
+    .pilot-modal-photo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .pilot-modal-info h2 {
+        font-size: 1.5rem;
+    }
+
+    .pilot-modal-info p {
+        font-size: 0.9rem;
+    }
+
+    .pilot-modal-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .pilot-stat-card {
+        padding: 18px;
+    }
+
+    .pilot-stat-value {
+        font-size: 1.8rem;
+    }
+
+    .pilot-stat-label {
+        font-size: 0.8rem;
+    }
+
+    .pilot-modal-body {
+        padding: 20px;
+    }
+}
+
 /* ========================================
    ANIMAÇÕES EXTRAS
 ======================================== */
@@ -810,6 +919,21 @@ body {
     margin-bottom: 20px;
 }
 
+@media (max-width: 768px) {
+    .standings-tabs {
+        padding: 0 10px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 480px) {
+    .standings-tabs {
+        padding: 0 5px;
+        gap: 8px;
+    }
+}
+
 .tab-btn {
     flex: 1;
     padding: 15px 20px;
@@ -841,6 +965,18 @@ body {
 .standings-content {
     padding: 0 20px;
     position: relative;
+}
+
+@media (max-width: 768px) {
+    .standings-content {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .standings-content {
+        padding: 0 5px;
+    }
 }
 
 .standings-table {
@@ -982,13 +1118,90 @@ body {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
+    gap: 5px;
+}
+
+@media (max-width: 1400px) {
+    .team-card {
+        min-width: 240px;
+        max-width: 240px;
+        height: 300px;
+    }
+
+    .car-3d-viewer,
+    .car-static-image-container {
+        height: 420px;
+    }
+
+    .car-static-image {
+        height: 320px;
+    }
+
+    .pilot-card {
+        padding: 24px;
+    }
+
+    .calendar-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+
+    .standing-row {
+        padding: 18px 16px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .app-title {
+        font-size: 3.5rem;
+    }
+
+    .team-card {
+        min-width: 220px;
+        max-width: 220px;
+        height: 280px;
+    }
+
+    .car-3d-viewer,
+    .car-static-image-container {
+        height: 380px;
+    }
+
+    .car-static-image {
+        height: 280px;
+    }
+
+    .pilot-card {
+        padding: 22px;
+    }
+
+    .calendar-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+
+    .standing-row {
+        grid-template-columns: 60px 1fr 90px 90px;
+        padding: 16px 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 3px;
+    }
 }
 
 .race-card {
     background: var(--bg-white);
     border-radius: 12px;
-    padding: 12px;
+    padding: 8px;
     box-shadow: 0 3px 12px var(--shadow);
     transition: all 0.2s;
     border-left: 3px solid var(--text-dark);
@@ -996,6 +1209,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .race-card:hover {
@@ -1005,83 +1220,100 @@ body {
 
 .race-track-image {
     width: 100%;
-    height: 90px;
+    height: 70px;
     object-fit: contain;
-    margin: 8px 0;
+    margin: 4px 0;
     border-radius: 6px;
     background: rgba(0, 0, 0, 0.02);
-    padding: 6px;
+    padding: 4px;
+    flex-shrink: 0;
 }
 
 .race-card.completed {
-    border-left-color: var(--success-green);
+    border-left-color: #00C853;
+    background: linear-gradient(to right, rgba(0, 200, 83, 0.08), var(--bg-white));
 }
 
 .race-card.upcoming {
-    border-left-color: var(--accent-gold);
+    border-left-color: #1A1A1A;
+    background: linear-gradient(to right, rgba(26, 26, 26, 0.05), var(--bg-white));
 }
 
 .race-round {
     display: inline-block;
     background: var(--text-dark);
     color: white;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 0.7rem;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 0.65rem;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .race-name {
     font-family: 'Rajdhani', sans-serif;
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 700;
     color: var(--text-dark);
-    margin-bottom: 4px;
-    line-height: 1.2;
+    margin-bottom: 3px;
+    line-height: 1.1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .race-circuit {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     color: var(--text-gray);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .race-date {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     color: var(--text-dark);
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 4px;
-    margin-bottom: 6px;
+    gap: 3px;
+    margin-bottom: 4px;
 }
 
 .race-status {
-    padding: 4px 8px;
-    border-radius: 6px;
+    padding: 3px 6px;
+    border-radius: 4px;
     text-align: center;
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .race-status.completed {
-    background: rgba(0, 208, 132, 0.1);
-    color: var(--success-green);
+    background: rgba(0, 200, 83, 0.15);
+    color: #00C853;
+    font-weight: 800;
 }
 
 .race-status.upcoming {
-    background: rgba(255, 215, 0, 0.1);
-    color: var(--accent-gold);
+    background: rgba(26, 26, 26, 0.1);
+    color: #1A1A1A;
+    font-weight: 800;
 }
 
 /* Variáveis adicionais */
 :root {
-    --success-green: #00d084;
-    --accent-gold: #ffd700;
+    --success-green: #00C853;
+    --accent-gold: #1A1A1A;
 }
 
 
@@ -1089,6 +1321,18 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 0.75rem;
+    }
 }
 
 /* Navegação */
@@ -1527,7 +1771,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--accent-gold);
+    color: var(--text-dark);
     font-weight: 600;
 }
 
@@ -1546,8 +1790,8 @@ body {
 }
 
 .race-status.upcoming {
-    background: rgba(255, 215, 0, 0.1);
-    color: var(--accent-gold);
+    background: rgba(26, 26, 26, 0.1);
+    color: var(--text-dark);
 }
 
 /* Drivers */
@@ -1769,18 +2013,50 @@ body {
 
 .tracks-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+@media (max-width: 1400px) {
+    .tracks-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+}
+
+@media (max-width: 1024px) {
+    .tracks-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .tracks-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tracks-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 6px;
+    }
 }
 
 .track-card {
     background: white;
     border-radius: 15px;
-    padding: 25px;
+    padding: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     cursor: pointer;
     border: 2px solid transparent;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .track-card:hover {
@@ -1790,30 +2066,54 @@ body {
 }
 
 .track-card-header {
-    margin-bottom: 15px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+}
+
+.track-image {
+    width: 100%;
+    height: 70px;
+    object-fit: contain;
+    margin: 4px 0;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.02);
+    padding: 4px;
+    flex-shrink: 0;
 }
 
 .track-card-name {
     font-family: 'Rajdhani', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     font-weight: 900;
     color: var(--text-dark);
-    margin-bottom: 5px;
+    margin-bottom: 3px;
+    line-height: 1.1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .track-card-location {
     color: var(--text-gray);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    font-size: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .track-card-info {
     display: flex;
-    gap: 15px;
-    margin-top: 15px;
-    padding-top: 15px;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
     border-top: 2px solid #f0f0f0;
+    flex-shrink: 0;
 }
 
 .track-card-stat {
@@ -1822,13 +2122,13 @@ body {
 }
 
 .track-card-stat-value {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--primary-red);
 }
 
 .track-card-stat-label {
-    font-size: 0.75rem;
+    font-size: 0.6rem;
     color: var(--text-gray);
     text-transform: uppercase;
 }
@@ -2000,24 +2300,322 @@ body {
 }
 
 @media (max-width: 768px) {
-    .tracks-grid {
-        grid-template-columns: 1fr;
+    .app-title {
+        font-size: 3rem;
     }
-    
+
+    .team-card {
+        min-width: 200px;
+        max-width: 200px;
+        height: 260px;
+        padding: 20px;
+    }
+
+    .team-logo-container {
+        width: 90px;
+        height: 90px;
+    }
+
+    .team-name {
+        font-size: 1.4rem;
+    }
+
+    .car-3d-viewer,
+    .car-static-image-container {
+        height: 350px;
+    }
+
+    .car-static-image {
+        height: 250px;
+    }
+
+    .team-name-title,
+    .pilots-title,
+    .standings-title,
+    .calendar-title,
+    .tracks-title {
+        font-size: 1.8rem;
+    }
+
+    .btn-view-pilots {
+        padding: 15px 35px;
+        font-size: 1.1rem;
+    }
+
+    .pilot-card {
+        padding: 20px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .pilot-number {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .pilot-name {
+        font-size: 1.4rem;
+    }
+
+    .race-card {
+        padding: 6px;
+    }
+
+    .race-track-image {
+        height: 60px;
+        margin: 3px 0;
+        padding: 3px;
+    }
+
+    .race-name {
+        font-size: 0.75rem;
+    }
+
+    .race-round,
+    .race-circuit,
+    .race-date,
+    .race-status {
+        font-size: 0.6rem;
+    }
+
+    .track-card {
+        padding: 8px;
+    }
+
+    .track-image {
+        height: 60px;
+        margin: 3px 0;
+        padding: 3px;
+    }
+
+    .track-card-name {
+        font-size: 0.9rem;
+    }
+
+    .track-card-location {
+        font-size: 0.7rem;
+    }
+
+    .track-card-stat-value {
+        font-size: 0.9rem;
+    }
+
+    .track-card-stat-label {
+        font-size: 0.55rem;
+    }
+
+    .standing-row {
+        grid-template-columns: 50px 1fr 80px 80px;
+        padding: 15px 12px;
+    }
+
+    .position {
+        font-size: 1.3rem;
+    }
+
+    .driver-name,
+    .constructor-name {
+        font-size: 1rem;
+    }
+
+    .points {
+        font-size: 1.4rem;
+    }
+
     .track-stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .track-modal-content {
         width: 95%;
         margin: 5% auto;
     }
-    
+
     .track-modal-body {
         padding: 25px;
     }
-}    .title-main {
-        font-size: 3rem;
+}
+
+@media (max-width: 480px) {
+    .app-title {
+        font-size: 2.2rem;
+        margin-bottom: 25px;
+    }
+
+    .tabs {
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 15px;
+    }
+
+    .tab-button {
+        padding: 12px 18px;
+        font-size: 0.9rem;
+        min-width: 120px;
+    }
+
+    .teams-horizontal-scroll {
+        padding: 0 10px;
+    }
+
+    .team-card {
+        min-width: 180px;
+        max-width: 180px;
+        height: 240px;
+        padding: 18px;
+    }
+
+    .team-logo-container {
+        width: 80px;
+        height: 80px;
+    }
+
+    .team-name {
+        font-size: 1.2rem;
+    }
+
+    .car-3d-viewer,
+    .car-static-image-container {
+        height: 280px;
+    }
+
+    .car-static-image {
+        height: 200px;
+    }
+
+    .team-name-title,
+    .pilots-title,
+    .standings-title,
+    .calendar-title,
+    .tracks-title {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .btn-view-pilots {
+        padding: 12px 28px;
+        font-size: 1rem;
+    }
+
+    .pilot-card {
+        padding: 18px;
+    }
+
+    .pilot-number {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+
+    .pilot-name {
+        font-size: 1.2rem;
+    }
+
+    .pilot-country {
+        font-size: 0.9rem;
+    }
+
+    .pilot-championships,
+    .pilot-podiums,
+    .pilot-points {
+        font-size: 0.85rem;
+    }
+
+    .race-card {
+        padding: 5px;
+    }
+
+    .race-track-image {
+        height: 50px;
+        margin: 2px 0;
+        padding: 2px;
+    }
+
+    .race-name {
+        font-size: 0.7rem;
+    }
+
+    .race-date,
+    .race-round {
+        font-size: 0.55rem;
+    }
+
+    .race-circuit,
+    .race-status {
+        font-size: 0.55rem;
+    }
+
+    .track-card {
+        padding: 6px;
+    }
+
+    .track-image {
+        height: 50px;
+        margin: 2px 0;
+        padding: 2px;
+    }
+
+    .track-card-name {
+        font-size: 0.75rem;
+    }
+
+    .track-card-location {
+        font-size: 0.6rem;
+    }
+
+    .track-card-stat-value {
+        font-size: 0.8rem;
+    }
+
+    .track-card-stat-label {
+        font-size: 0.5rem;
+    }
+
+    .track-curiosities {
+        font-size: 0.8rem;
+    }
+
+    .standing-row {
+        grid-template-columns: 40px 1fr 70px 70px;
+        padding: 12px 10px;
+    }
+
+    .position {
+        font-size: 1.1rem;
+    }
+
+    .driver-name,
+    .constructor-name {
+        font-size: 0.9rem;
+    }
+
+    .points {
+        font-size: 1.2rem;
+    }
+
+    .track-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .track-modal-content {
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .track-modal-body {
+        padding: 20px;
+    }
+
+    .track-modal-image {
+        height: 180px;
+    }
+
+    .title-main {
+        font-size: 2.5rem;
     }
 
     .hero-buttons {
@@ -2041,12 +2639,6 @@ body {
     .drivers-grid,
     .teams-grid {
         grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .title-main {
-        font-size: 2.5rem;
     }
 
     .section-title {

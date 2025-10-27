@@ -1894,14 +1894,18 @@ async function loadTracks() {
         card.style.animationDelay = `${index * 0.05}s`;
         card.onclick = () => showTrackModal(race, trackInfo);
         
+        // Imagem da pista
+        const trackImagePath = `pistas/${race.Circuit.circuitId}.png`;
+        
         card.innerHTML = `
             <div class="track-card-header">
-                <div class="track-card-name">${race.country} ${trackKey}</div>
+                <div class="track-card-name">${race.country}</div>
                 <div class="track-card-location">
                     <i class="fas fa-map-marker-alt"></i>
                     ${race.location}
                 </div>
             </div>
+            <img src="${trackImagePath}" alt="${trackKey}" class="track-image" onerror="this.style.display='none'">
             <div class="track-card-info">
                 <div class="track-card-stat">
                     <div class="track-card-stat-value">${trackInfo.length}</div>
