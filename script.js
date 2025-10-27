@@ -1182,6 +1182,34 @@ function renderRaces(races) {
     
     const today = new Date();
     
+    // Mapeamento de corridas para imagens de traçado
+    const trackImages = {
+        'Grande Prêmio da Austrália': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Australia%20carbon.png',
+        'Grande Prêmio da China': 'https://www-sportmonks-com.translate.goog/wp-content/uploads/2024/02/China-GP-768x432.png?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt&_x_tr_pto=tc',
+        'Grande Prêmio do Japão': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Japan%20carbon.png',
+        'Grande Prêmio do Bahrein': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Bahrain%20carbon.png',
+        'Grande Prêmio da Arábia Saudita': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Saudi%20Arabia%20carbon.png',
+        'Grande Prêmio de Miami': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Miami%20carbon.png',
+        'Grande Prêmio da Emilia-Romagna': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Emilia%20Romagna%20carbon.png',
+        'Grande Prêmio de Mônaco': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Monaco%20carbon.png',
+        'Grande Prêmio da Espanha': 'https://www-sportmonks-com.translate.goog/wp-content/uploads/2024/02/Circuit-de-Barcelona-768x432.png?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt&_x_tr_pto=tc',
+        'Grande Prêmio do Canadá': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Canada%20carbon.png',
+        'Grande Prêmio da Áustria': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Austria%20carbon.png',
+        'Grande Prêmio da Grã-Bretanha': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Great%20Britain%20carbon.png',
+        'Grande Prêmio da Bélgica': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Belgium%20carbon.png',
+        'Grande Prêmio da Hungria': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Hungary%20carbon.png',
+        'Grande Prêmio da Holanda': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Netherlands%20carbon.png',
+        'Grande Prêmio da Itália': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Italy%20carbon.png',
+        'Grande Prêmio do Azerbaijão': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Azerbaijan%20carbon.png',
+        'Grande Prêmio de Singapura': 'https://www-sportmonks-com.translate.goog/wp-content/uploads/2024/02/Singapore-GP-768x432.png?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt&_x_tr_pto=tc',
+        'Grande Prêmio dos Estados Unidos': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/United%20States%20carbon.png',
+        'Grande Prêmio do México': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Mexico%20carbon.png',
+        'Grande Prêmio do Brasil': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Brazil%20carbon.png',
+        'Grande Prêmio de Las Vegas': 'https://www-sportmonks-com.translate.goog/wp-content/uploads/2024/02/Las-Vegas-GP-768x432.png?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt&_x_tr_pto=tc',
+        'Grande Prêmio do Catar': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Qatar%20carbon.png',
+        'Grande Prêmio de Abu Dhabi': 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Abu%20Dhabi%20carbon.png'
+    };
+    
     races.forEach((race, index) => {
         const raceDate = new Date(race.date + 'T' + (race.time || '00:00:00'));
         const isPast = raceDate < today;
@@ -1197,19 +1225,26 @@ function renderRaces(races) {
             year: 'numeric'
         });
         
+        const trackImage = trackImages[race.raceName] || 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Bahrain%20carbon.png';
+        
         card.innerHTML = `
-            <div class="race-round">Etapa ${race.round}</div>
-            <h3 class="race-name">${race.raceName}</h3>
-            <div class="race-circuit">
-                <i class="fas fa-map-marker-alt"></i>
-                ${race.Circuit.circuitName}
+            <div>
+                <div class="race-round">Etapa ${race.round}</div>
+                <h3 class="race-name">${race.raceName}</h3>
+                <img src="${trackImage}" alt="${race.raceName}" class="race-track-image" onerror="this.style.display='none'">
             </div>
-            <div class="race-date">
-                <i class="fas fa-calendar"></i>
-                ${formattedDate}
-            </div>
-            <div class="race-status ${isPast ? 'completed' : 'upcoming'}">
-                ${isPast ? '✓ Concluída' : '⏱ Próxima'}
+            <div>
+                <div class="race-circuit">
+                    <i class="fas fa-map-marker-alt"></i>
+                    ${race.Circuit.circuitName}
+                </div>
+                <div class="race-date">
+                    <i class="fas fa-calendar"></i>
+                    ${formattedDate}
+                </div>
+                <div class="race-status ${isPast ? 'completed' : 'upcoming'}">
+                    ${isPast ? '✓ Concluída' : '⏱ Próxima'}
+                </div>
             </div>
         `;
         
