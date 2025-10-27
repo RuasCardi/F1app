@@ -38,8 +38,9 @@ const teams2025 = [
         name: 'Red Bull Racing',
         shortName: 'Red Bull',
         color: '#3671C6',
-        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/red%20bull.png',
-        carModel: 'RB20',
+    logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/red%20bull.png',
+    carModel: 'RB20',
+    carImage: 'fotos/rbr-horizontal.webp',
         pilots: [
             { 
                 name: 'Max Verstappen', 
@@ -62,8 +63,9 @@ const teams2025 = [
         name: 'Ferrari',
         shortName: 'Ferrari',
         color: '#E8002D',
-        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/ferrari.png',
-        carModel: 'SF-24',
+    logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/ferrari.png',
+    carModel: 'SF-24',
+    carImage: 'fotos/ferrari-sf-25.webp',
         pilots: [
             { 
                 name: 'Charles Leclerc', 
@@ -86,8 +88,9 @@ const teams2025 = [
         name: 'McLaren',
         shortName: 'McLaren',
         color: '#FF8000',
-        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/mclaren.png',
-        carModel: 'MCL38',
+    logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/mclaren.png',
+    carModel: 'MCL38',
+    carImage: 'fotos/mclaren-mcl39.webp',
         pilots: [
             { 
                 name: 'Lando Norris', 
@@ -110,8 +113,9 @@ const teams2025 = [
         name: 'Mercedes',
         shortName: 'Mercedes',
         color: '#27F4D2',
-        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/mercedes.png',
-        carModel: 'W15',
+    logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/mercedes.png',
+    carModel: 'W15',
+    carImage: 'fotos/mercedes-f1-w16.webp',
         pilots: [
             { 
                 name: 'George Russell', 
@@ -134,8 +138,9 @@ const teams2025 = [
         name: 'Aston Martin',
         shortName: 'Aston Martin',
         color: '#229971',
-        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/aston%20martin.png',
-        carModel: 'AMR24',
+    logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/aston%20martin.png',
+    carModel: 'AMR24',
+    carImage: 'fotos/aston-martin-racing-amr25.webp',
         pilots: [
             { 
                 name: 'Fernando Alonso', 
@@ -158,8 +163,9 @@ const teams2025 = [
         name: 'Alpine',
         shortName: 'Alpine',
         color: '#FF87BC',
-        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/alpine.png',
-        carModel: 'A524',
+    logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/alpine.png',
+    carModel: 'A524',
+    carImage: 'fotos/alpine-a525.webp',
         pilots: [
             { 
                 name: 'Pierre Gasly', 
@@ -182,8 +188,9 @@ const teams2025 = [
         name: 'Haas F1 Team',
         shortName: 'Haas',
         color: '#B6BABD',
-        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/haas.png',
-        carModel: 'VF-24',
+    logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/haas.png',
+    carModel: 'VF-24',
+    carImage: 'fotos/haas-vf-25.webp',
         pilots: [
             { 
                 name: 'Esteban Ocon', 
@@ -206,8 +213,9 @@ const teams2025 = [
         name: 'Kick Sauber',
         shortName: 'Sauber',
         color: '#52E252',
-        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/kick%20sauber.png',
-        carModel: 'C44',
+    logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/kick%20sauber.png',
+    carModel: 'C44',
+    carImage: 'fotos/kick-sauber-c45.webp',
         pilots: [
             { 
                 name: 'Nico Hülkenberg', 
@@ -230,8 +238,9 @@ const teams2025 = [
         name: 'Williams',
         shortName: 'Williams',
         color: '#64C4FF',
-        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/williams.png',
-        carModel: 'FW46',
+    logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/williams.png',
+    carModel: 'FW46',
+    carImage: 'fotos/williams-fw47.webp',
         pilots: [
             { 
                 name: 'Alexander Albon', 
@@ -254,8 +263,9 @@ const teams2025 = [
         name: 'RB F1 Team',
         shortName: 'Racing Bulls',
         color: '#6692FF',
-        logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/rb.png',
-        carModel: 'VCARB01',
+    logo: 'https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/team%20logos/rb.png',
+    carModel: 'VCARB01',
+    carImage: 'fotos/racing-bulls-vcarb-02.webp',
         pilots: [
             { 
                 name: 'Sergio Perez', 
@@ -387,9 +397,21 @@ function selectTeam(team) {
         console.error('❌ Elemento viewPilotsBtn não encontrado!');
     }
     
-    // Criar visualizador 3D interativo
-    console.log('🎮 Iniciando visualizador 3D...');
-    init3DViewer(team);
+    // Exibir imagem estática do carro com fallback
+    const carViewer = document.getElementById('car3DViewer');
+    if (carViewer) {
+        carViewer.innerHTML = `
+            <div class="car-static-image-container">
+                <img src="${team.carImage}"
+                     alt="Carro ${team.name}"
+                     class="car-static-image"
+                     style="max-width: 100%; max-height: 100%; border-radius: 16px; box-shadow: 0 4px 24px #0002; background: #fff;"
+                     onerror="this.onerror=null;this.src='https://via.placeholder.com/600x300/cccccc/333333?text=Carro+${encodeURIComponent(team.shortName)}';"
+                />
+                <p class="car-model-label" style="color: ${team.color}; font-size: 1.5rem; font-weight: bold; margin-top: 18px;">${team.carModel}</p>
+            </div>
+        `;
+    }
     
     // Navegar para tela do carro
     console.log('🔄 Navegando para tela do carro...');
@@ -831,30 +853,55 @@ async function showPilotModal(pilot, team) {
     document.getElementById('pilotModalNationality').textContent = pilot.nationality;
     document.getElementById('pilotModalTeam').textContent = team.name;
     
-    // Mostrar posição no campeonato 2025
+    // Buscar posição e pontos da API de classificação (IGUAL À TABELA GERAL)
     const positionDiv = document.getElementById('pilotModalPosition');
-    if (stats2025[pilot.code]) {
-        const position = stats2025[pilot.code].position;
-        const suffix = position === 1 ? 'º - LÍDER!' : position === 2 ? 'º' : position === 3 ? 'º' : 'º';
-        positionDiv.textContent = `🏆 ${position}${suffix} lugar no campeonato 2025`;
-        positionDiv.style.color = position <= 3 ? '#ffd700' : '#27F4D2';
-    } else {
-        positionDiv.textContent = '';
+    document.getElementById('pilotPoints').textContent = '...';
+    let apiStanding = null;
+    try {
+        // Usar ano selecionado ou tentar ano atual (MESMA LÓGICA DA CLASSIFICAÇÃO)
+        let year = document.getElementById('yearSelector')?.value || CURRENT_YEAR;
+        let response = await fetch(`${API_BASE}/${year}/driverStandings.json`);
+        let data = await response.json();
+        
+        // Se não houver dados, tentar último ano disponível (IGUAL À CLASSIFICAÇÃO)
+        if (!data.MRData.StandingsTable.StandingsLists.length) {
+            console.warn(`⚠️ Sem dados para ${year}, tentando 2024...`);
+            year = 2024;
+            response = await fetch(`${API_BASE}/${year}/driverStandings.json`);
+            data = await response.json();
+        }
+        
+        const standings = data.MRData.StandingsTable.StandingsLists[0].DriverStandings;
+        const standing = standings.find(s => s.Driver.code === pilot.code);
+        apiStanding = standing;
+        if (standing) {
+            const position = standing.position;
+            const points = standing.points;
+            const suffix = position === '1' ? 'º - LÍDER!' : 'º';
+            positionDiv.textContent = `🏆 ${position}${suffix} lugar no campeonato`;
+            positionDiv.style.color = parseInt(position) <= 3 ? '#ffd700' : '#27F4D2';
+            document.getElementById('pilotPoints').textContent = `${points} pts`;
+        } else {
+            positionDiv.textContent = 'Posição não encontrada';
+            document.getElementById('pilotPoints').textContent = '0 pts';
+        }
+    } catch (err) {
+        positionDiv.textContent = 'Erro ao buscar posição';
+        document.getElementById('pilotPoints').textContent = '0 pts';
     }
     
-    // Resetar estatísticas enquanto carrega
+    // Resetar estatísticas enquanto carrega (exceto pontos que já vieram da API)
     document.getElementById('pilotChampionships').textContent = '...';
     document.getElementById('pilotWins').textContent = '...';
     document.getElementById('pilotPodiums').textContent = '...';
     document.getElementById('pilotPoles').textContent = '...';
-    document.getElementById('pilotPoints').textContent = '...';
     document.getElementById('pilotRaces').textContent = '...';
     
     // Mostrar modal
     modal.style.display = 'block';
     
     // Buscar estatísticas da API
-    await loadPilotStats(pilot.code);
+    await loadPilotStats(pilot.code, apiStanding ? apiStanding.points : null);
 }
 
 function closePilotModal() {
@@ -869,35 +916,38 @@ window.onclick = function(event) {
     }
 }
 
-async function loadPilotStats(driverCode) {
+async function loadPilotStats(driverCode, apiPoints) {
     try {
         console.log(`📊 Buscando estatísticas para: ${driverCode}`);
         
-        // SEMPRE usar dados de 2025 primeiro
+        // SEMPRE usar dados de 2025 primeiro (mas NÃO sobrescrever pontos da API)
         if (stats2025[driverCode]) {
             const stats = stats2025[driverCode];
             
-            // Mostrar APENAS números da TEMPORADA 2025
+            // Mostrar números da TEMPORADA 2025 (exceto pontos que vêm da API)
             document.getElementById('pilotChampionships').textContent = stats.championships;
             document.getElementById('pilotWins').textContent = stats.wins;
             document.getElementById('pilotPodiums').textContent = stats.podiums;
             document.getElementById('pilotPoles').textContent = stats.poles;
-            document.getElementById('pilotPoints').textContent = `${stats.points} pts`;
+            // NÃO sobrescrever pontos - eles já vieram da API
             document.getElementById('pilotRaces').textContent = stats.races;
             
             console.log(`✅ Estatísticas 2025 exibidas:`, stats);
-            console.log(`   Vitórias: ${stats.wins}, Pódios: ${stats.podiums}, Pontos: ${stats.points}`);
+            console.log(`   Vitórias: ${stats.wins}, Pódios: ${stats.podiums}, Pontos da API: ${apiPoints}`);
             return;
         }
         
-        // Fallback: Piloto não está em stats2025, buscar da API
+        // Fallback: Piloto não está em stats2025
         console.warn(`⚠️ Piloto ${driverCode} não encontrado em stats2025`);
         
         document.getElementById('pilotChampionships').textContent = '0';
         document.getElementById('pilotWins').textContent = '0';
         document.getElementById('pilotPodiums').textContent = '0';
         document.getElementById('pilotPoles').textContent = '0';
-        document.getElementById('pilotPoints').textContent = '0 pts';
+        // NÃO sobrescrever pontos se vieram da API
+        if (!apiPoints) {
+            document.getElementById('pilotPoints').textContent = '0 pts';
+        }
         document.getElementById('pilotRaces').textContent = '0';
         
     } catch (error) {
@@ -907,7 +957,10 @@ async function loadPilotStats(driverCode) {
         document.getElementById('pilotWins').textContent = '0';
         document.getElementById('pilotPodiums').textContent = '0';
         document.getElementById('pilotPoles').textContent = '0';
-        document.getElementById('pilotPoints').textContent = '0 pts';
+        // NÃO sobrescrever pontos se vieram da API
+        if (!apiPoints) {
+            document.getElementById('pilotPoints').textContent = '0 pts';
+        }
         document.getElementById('pilotRaces').textContent = '0';
     }
 }
